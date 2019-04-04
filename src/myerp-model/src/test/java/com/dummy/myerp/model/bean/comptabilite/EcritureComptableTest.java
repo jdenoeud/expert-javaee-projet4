@@ -30,6 +30,10 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "301"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
+        System.out.println("Test 1");
+        System.out.println("somme des crédits= " + vEcriture.getTotalCredit());
+        System.out.println("somme des débits= " + vEcriture.getTotalDebit());
+        
         Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
 
         vEcriture.getListLigneEcriture().clear();
@@ -38,7 +42,40 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
+        
+        System.out.println("Test 2");
+        System.out.println("somme des crédits= " + vEcriture.getTotalCredit());
+        System.out.println("somme des débits= " + vEcriture.getTotalDebit());
+       
         Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
+    }
+    
+    @Test
+    public void getTotalDebitTest() {
+    	 EcritureComptable vEcriture;
+         vEcriture = new EcritureComptable();
+
+         vEcriture.setLibelle("Equilibrée");
+         vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
+         vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
+         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
+         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
+         
+         Assert.assertEquals("Somme des débits incorrecte" , new BigDecimal(31),vEcriture.getTotalDebit());
+    }
+    
+    @Test
+    public void getTotalCreditTest() {
+    	 EcritureComptable vEcriture;
+         vEcriture = new EcritureComptable();
+
+         vEcriture.setLibelle("Equilibrée");
+         vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
+         vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
+         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
+         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
+         
+         Assert.assertEquals("Somme des crédits incorrecte" , new BigDecimal(33),vEcriture.getTotalCredit());
     }
 
 }
