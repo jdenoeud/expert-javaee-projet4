@@ -1,15 +1,20 @@
 package com.dummy.myerp.testbusiness.business;
 
-import static org.junit.Assert.fail;
+public class TestIntegration {
 
-import org.junit.Test;
-
-public class TestIntegration extends BusinessTestCase{
-
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+//	private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
+//	
+//	
+//	 @Before
+//	 public void setUp() {
+//		 manager.setComptabiliteDao(manager.getDaoProxy().getComptabiliteDao());  	
+//	 }
+//	
+//	@Test
+//	public void test() {
+//		List <JournalComptable> listJournalComptable = manager.getListJournalComptable();
+//		System.out.println(listJournalComptable.get(0).getCode());
+//		assertNotNull(listJournalComptable);
+//	}
 
 }
