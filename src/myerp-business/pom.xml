@@ -90,7 +90,7 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- Mockito : mocks-->
+        <!-- Mockito : (pour les mocks) -->
         <dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
