@@ -107,8 +107,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	Calendar calendar = new GregorianCalendar();
     	calendar.setTime(pEcritureComptable.getDate());
     	int anneeEcritureComptable = calendar.get(Calendar.YEAR);
-    	
     	System.out.println(anneeEcritureComptable);
+    	JournalComptable vJournalComptable = pEcritureComptable.getJournal();
+    	System.out.println(vJournalComptable.getCode());
+    	System.out.println(vJournalComptable.getLibelle());
     }
 
     /**

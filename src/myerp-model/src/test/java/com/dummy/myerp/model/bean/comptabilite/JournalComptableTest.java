@@ -10,7 +10,6 @@ import org.junit.Test;
 
 public class JournalComptableTest {
 
-
 	@Test
 	public void getByCodeTest_OK() {
 		List<JournalComptable> journauxComptables = new ArrayList<JournalComptable>();
@@ -37,6 +36,4 @@ public class JournalComptableTest {
     	assertNull(journalActual);
 	}
 	
-
-
 }
