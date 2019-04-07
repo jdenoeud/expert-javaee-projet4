@@ -77,5 +77,6 @@ public class EcritureComptableTest {
          
          Assert.assertEquals("Somme des crédits incorrecte" , new BigDecimal(33),vEcriture.getTotalCredit());
     }
-
+    
+ 
 }

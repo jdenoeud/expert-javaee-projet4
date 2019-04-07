@@ -34,8 +34,7 @@ public class ComptabiliteManagerImplTest {
     
     @Before
     public void setUp() {
-   	
-    	manager.setComptabiliteDao(comptabiliteDaoMock);
+     	manager.setComptabiliteDao(comptabiliteDaoMock);
     	JournalComptable journal1 = new JournalComptable("AC","Achat");
     	listJournalExpected.add(journal1);
     	JournalComptable journal2 = new JournalComptable("VE","Vente");
@@ -46,10 +45,25 @@ public class ComptabiliteManagerImplTest {
     }
     
     @Test
-    public void getListJournalComptableTest() {
-    	
+    public void getListJournalComptableTest() {   	
     	List<JournalComptable> listJournalActual = manager.getListJournalComptable();
-    	assertThat(listJournalActual,is(listJournalExpected));
+    	assertThat(listJournalActual,is(listJournalExpected));   	
+    }
+    
+    @Test
+    public void addReferenceTest() {
+        EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal(123),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal(123)));
+        manager.addReference(vEcritureComptable);
     	
     }
 

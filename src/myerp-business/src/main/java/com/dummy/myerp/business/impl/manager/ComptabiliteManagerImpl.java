@@ -1,6 +1,8 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
@@ -102,7 +104,11 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                     (table sequence_ecriture_comptable)
          */
     	// 1 - Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
-
+    	Calendar calendar = new GregorianCalendar();
+    	calendar.setTime(pEcritureComptable.getDate());
+    	int anneeEcritureComptable = calendar.get(Calendar.YEAR);
+    	
+    	System.out.println(anneeEcritureComptable);
     }
 
     /**
