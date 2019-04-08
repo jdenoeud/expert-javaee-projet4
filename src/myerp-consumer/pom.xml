@@ -54,7 +54,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
-
+        
+        <!-- ===== Spring TEST ===== -->
+        <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-test</artifactId>
+	        <scope>test</scope>
+	    </dependency>
 
         <!-- ========== Test Dependencies ========== -->
         <dependency>
@@ -74,10 +80,10 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-<!--             <scope>test</scope> -->
+            
+<!--              <scope>test</scope> ENLEVER LE COMMENTAIRE DE CETTE LIGNE  -->
         </dependency>
     </dependencies>
-
 
     <!-- =============================================================== -->
     <!-- Profiles -->
