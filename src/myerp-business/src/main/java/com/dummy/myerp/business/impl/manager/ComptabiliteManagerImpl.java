@@ -31,8 +31,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
     // ==================== Attributs ====================
 
-//	private ComptabiliteDao comptabiliteDao = getDaoProxy().getComptabiliteDao();
-	private ComptabiliteDao comptabiliteDao ;
+	private ComptabiliteDao comptabiliteDao = getDaoProxy().getComptabiliteDao();
+//	private ComptabiliteDao comptabiliteDao ;
 
     // ==================== Constructeurs ====================
     /**

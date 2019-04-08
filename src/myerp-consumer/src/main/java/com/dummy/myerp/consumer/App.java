@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
+import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 
 public class App {
 	
@@ -15,11 +15,15 @@ public class App {
     {
     	System.out.println( "Hello DAO !" );
 
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] { "/**/applicationContext.xml"});  
+		ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] { "/**/testApplicationContext.xml"});  
 		DaoProxy daoProxy = (DaoProxy) ctx.getBean("DaoProxy");
 		ComptabiliteDao dao = daoProxy.getComptabiliteDao();
-		List<CompteComptable> comptes = dao.getListCompteComptable();
-    }
+		List<JournalComptable> journaux = dao.getListJournalComptable();
+		for(JournalComptable j : journaux) {
+			System.out.println(j.getCode());
+			System.out.println(j.getLibelle());
+		}
+	}
 
 
 }

@@ -1,21 +1,12 @@
 package com.dummy.myerp.business.impl.manager;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
@@ -26,29 +17,29 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 public class ComptabiliteManagerImplTest {
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
-    
-    @Mock
-    private ComptabiliteDao comptabiliteDaoMock;
-    
-	List<JournalComptable> listJournalExpected = new ArrayList<JournalComptable>();
-    
-    @Before
-    public void setUp() {
-     	manager.setComptabiliteDao(comptabiliteDaoMock);
-    	JournalComptable journal1 = new JournalComptable("AC","Achat");
-    	listJournalExpected.add(journal1);
-    	JournalComptable journal2 = new JournalComptable("VE","Vente");
-    	listJournalExpected.add(journal2);
-    	JournalComptable journal3 = new JournalComptable("BQ","Banque");
-    	listJournalExpected.add(journal3);
-    	when(comptabiliteDaoMock.getListJournalComptable()).thenReturn(listJournalExpected);
-    }
-    
-    @Test
-    public void getListJournalComptableTest() {   	
-    	List<JournalComptable> listJournalActual = manager.getListJournalComptable();
-    	assertThat(listJournalActual,is(listJournalExpected));   	
-    }
+//    
+//    @Mock
+//    private ComptabiliteDao comptabiliteDaoMock;
+//    
+//	List<JournalComptable> listJournalExpected = new ArrayList<JournalComptable>();
+//    
+//    @Before
+//    public void setUp() {
+//     	manager.setComptabiliteDao(comptabiliteDaoMock);
+//    	JournalComptable journal1 = new JournalComptable("AC","Achat");
+//    	listJournalExpected.add(journal1);
+//    	JournalComptable journal2 = new JournalComptable("VE","Vente");
+//    	listJournalExpected.add(journal2);
+//    	JournalComptable journal3 = new JournalComptable("BQ","Banque");
+//    	listJournalExpected.add(journal3);
+//    	when(comptabiliteDaoMock.getListJournalComptable()).thenReturn(listJournalExpected);
+//    }
+//    
+//    @Test
+//    public void getListJournalComptableTest() {   	
+//    	List<JournalComptable> listJournalActual = manager.getListJournalComptable();
+//    	assertThat(listJournalActual,is(listJournalExpected));   	
+//    }
     
     @Test
     public void addReferenceTest() {

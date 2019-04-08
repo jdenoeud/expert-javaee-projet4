@@ -25,7 +25,7 @@ public class ComptabiliteDaoImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ApplicationContext context=new ClassPathXmlApplicationContext("/myerp-consumer/src/main/resources/com/dummy/myerp/consumer/applicationContext.xml");  
+		ApplicationContext context=new ClassPathXmlApplicationContext(new String[] { "/**/testApplicationContext.xml"});  
 		pComptabiliteDaoImpl = ComptabiliteDaoImpl.getInstance();
 
 	}
