@@ -151,13 +151,22 @@ public class ComptabiliteDaoImplTestIntegration {
 		ecritureTest.getListLigneEcriture().addAll(lignes);
 		comptabiliteDao.insertEcritureComptable(ecritureTest);
 		EcritureComptable ecritureResultat = comptabiliteDao.getEcritureComptableByRef("AC-2016/00007");
-		assertEquals(2,ecritureResultat.getListLigneEcriture().size());
+		assertEquals("Nombre de lignes comptables insérées incorrect",2,ecritureResultat.getListLigneEcriture().size());
 	}
-
 	
-
+    // ==================== EcritureComptable - UPDATE ====================
+	@Test
+	public void updateEcritureComptableTest() throws NotFoundException  {
+		EcritureComptable ecritureTest = comptabiliteDao.getEcritureComptable(-4);
+        ecritureTest.setJournal(new JournalComptable("AC","Achat"));
+        ecritureTest.setReference("AC-2017/00006");
+        ecritureTest.setLibelle("Papiers");
+        comptabiliteDao.updateEcritureComptable(ecritureTest);
+        EcritureComptable ecritureActual = comptabiliteDao.getEcritureComptable(-4);
+        assertEquals("AC", ecritureActual.getJournal().getCode());
+        assertEquals("AC-2017/00006", ecritureActual.getReference());
+        assertEquals("Papiers", ecritureActual.getLibelle());
+	}
 	
-	
-
-
+    // ==================== EcritureComptable - DELETE ====================
 }
