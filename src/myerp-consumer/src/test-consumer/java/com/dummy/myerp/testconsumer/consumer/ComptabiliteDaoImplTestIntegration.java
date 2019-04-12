@@ -70,16 +70,16 @@ public class ComptabiliteDaoImplTestIntegration {
 	@Test
 	public void getListEcritureComptableTest_ListSizeOK() {
 		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
-		assertEquals("Nombre de champs récupérés incorrect", 5, ecritures.size());
+		assertNotNull(ecritures);
 	}
 	@Test
 	public void getListEcritureComptableTest_JournalCodeValueOK() {
 		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
-		assertEquals("Journal récupéré incorrect", "VE", ecritures.get(1).getJournal().getCode());
+		assertEquals("Journal récupéré incorrect", "AC", ecritures.get(0).getJournal().getCode());
 	}
 	@Test
 	public void getEcritureComptableTest_ExistingId() throws NotFoundException {
-		EcritureComptable ecriture = comptabiliteDao.getEcritureComptable(-1);
+		EcritureComptable ecriture = comptabiliteDao.getEcritureComptable(-2);
 		assertNotNull("Aucun résultat", ecriture);
 	}
 	@Test(expected = NotFoundException.class)
@@ -169,4 +169,12 @@ public class ComptabiliteDaoImplTestIntegration {
 	}
 	
     // ==================== EcritureComptable - DELETE ====================
+	@Test
+	public void deleteEcritureComptableTest() throws NotFoundException  {
+		Integer initialSize = comptabiliteDao.getListEcritureComptable().size()  ;
+		comptabiliteDao.deleteEcritureComptable(-3);
+		Integer expectedSize = initialSize - 1;
+		Integer actualSize = comptabiliteDao.getListEcritureComptable().size();
+		assertEquals(expectedSize,actualSize);
+	}
 }
