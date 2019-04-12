@@ -91,7 +91,6 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vList;
     }
 
-
     /** SQLgetEcritureComptable */
     private static String SQLgetEcritureComptable;
     public void setSQLgetEcritureComptable(String pSQLgetEcritureComptable) {
@@ -139,6 +138,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     public void setSQLloadListLigneEcriture(String pSQLloadListLigneEcriture) {
         SQLloadListLigneEcriture = pSQLloadListLigneEcriture;
     }
+    //récupère la liste des lignes comptables à partir de l'id de l'écriture comptable
     @Override
     public void loadListLigneEcriture(EcritureComptable pEcritureComptable) {
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
