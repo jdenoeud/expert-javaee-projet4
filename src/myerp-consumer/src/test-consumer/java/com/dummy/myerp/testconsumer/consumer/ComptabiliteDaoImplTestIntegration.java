@@ -1,7 +1,6 @@
 package com.dummy.myerp.testconsumer.consumer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -15,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
+import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 
 @RunWith(SpringRunner.class)
@@ -22,7 +22,7 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 public class ComptabiliteDaoImplTestIntegration {
 	
 	@Autowired
-	private DaoProxy daoProxy ;
+	private DaoProxy daoProxy;
 	
 	private ComptabiliteDao comptabiliteDao;
 
@@ -30,13 +30,8 @@ public class ComptabiliteDaoImplTestIntegration {
 	public void setUp() throws Exception {
 		comptabiliteDao = daoProxy.getComptabiliteDao();
 	}
-
-	@Test
-	public void getListCompteComptableTest_ListNotNull() {
-		List<CompteComptable> comptes = comptabiliteDao.getListCompteComptable();
-		assertNotNull("Aucune liste retournée", comptes.get(0));
-	}
 	
+	// ==================== Méthode GetListCompteComptable ====================
 	@Test
 	public void getListCompteComptableTest_ListSizeOk() {
 		List<CompteComptable> comptes = comptabiliteDao.getListCompteComptable();
@@ -44,21 +39,35 @@ public class ComptabiliteDaoImplTestIntegration {
 	}
 	
 	@Test
-	public void getListCompteComptableTest_VerifyFirstValue() {
+	public void getListCompteComptableTest_VerifyFirstElement() {
 		List<CompteComptable> comptes = comptabiliteDao.getListCompteComptable();
 		assertEquals("Valeur du libellé incorrect", "Fournisseurs",comptes.get(0).getLibelle());
 	}
 	
+	// ==================== Méthode GetListJournalComptable ====================
 	@Test
-	public void getListJournalComptableTest_LastLibelleValueOk() {
+	public void getListJournalComptableTest_ListSizeOk() {
 		List<JournalComptable> journaux = comptabiliteDao.getListJournalComptable();
-		assertEquals("Valeur du libellé incorrecte", "Opérations diverses", journaux.get(3).getLibelle());
+		assertEquals("Nombre de champs récupérés incorrect", 4, journaux.size());
 	}
 	
 	@Test
 	public void getListJournalComptableTest_LastCodeValueOk() {
 		List<JournalComptable> journaux = comptabiliteDao.getListJournalComptable();
-		assertEquals("Valeur du code journal incorrecte", "OD", journaux.get(3).getCode());
+		assertEquals("Valeur du code incorrecte", "OD", journaux.get(3).getCode());
 	}
+	@Test
+	public void getListJournalComptableTest_FirstLibelleValueOk() {
+		List<JournalComptable> journaux = comptabiliteDao.getListJournalComptable();
+		assertEquals("Valeur du libelle incorrecte", "Achat", journaux.get(0).getLibelle());
+	}
+	
+    // ==================== EcritureComptable - GET ====================
+	@Test
+	public void getListEcritureComptableTest_ListSizeOk() {
+		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
+		assertEquals("Nombre de champs récupérés incorrect", 5, ecritures.size());
+	}
+
 
 }
