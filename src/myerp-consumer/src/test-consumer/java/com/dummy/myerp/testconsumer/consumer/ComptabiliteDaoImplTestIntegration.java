@@ -67,11 +67,11 @@ public class ComptabiliteDaoImplTestIntegration {
 	}
 	
     // ==================== EcritureComptable - GET ====================
-//	@Test
-//	public void getListEcritureComptableTest_ListSizeOK() {
-//		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
-//		assertEquals("Nombre de champs récupérés incorrect", 5, ecritures.size());
-//	}
+	@Test
+	public void getListEcritureComptableTest_ListSizeOK() {
+		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
+		assertEquals("Nombre de champs récupérés incorrect", 5, ecritures.size());
+	}
 	@Test
 	public void getListEcritureComptableTest_JournalCodeValueOK() {
 		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
@@ -121,22 +121,23 @@ public class ComptabiliteDaoImplTestIntegration {
 	}
 	
 	 // ==================== EcritureComptable - INSERT ====================
-//	@Test
-//	public void insertEcritureComptableTest_GivenNewEcritureComptable()  {
-//		Integer beforeNb = comptabiliteDao.getListEcritureComptable().size()  ;
-//        EcritureComptable ecritureTest = new EcritureComptable();
-//        ecritureTest.setJournal(new JournalComptable("AC","Achat"));
-//        ecritureTest.setReference("AC-2016/00006");
-//        ecritureTest.setDate(new Date());
-//        ecritureTest.setLibelle("Bureaux");
-//        comptabiliteDao.insertEcritureComptable(ecritureTest);
-//        Integer expectedSize = beforeNb + 1 ;
-//        Integer actualSize = comptabiliteDao.getListEcritureComptable().size() ;
-//        assertEquals(expectedSize, actualSize);
-//	}
+	@Test
+	public void insertEcritureComptableTest_GivenNewEcritureComptable()  {
+		Integer beforeNb = comptabiliteDao.getListEcritureComptable().size()  ;
+        EcritureComptable ecritureTest = new EcritureComptable();
+        ecritureTest.setJournal(new JournalComptable("AC","Achat"));
+        ecritureTest.setReference("AC-2016/00006");
+        ecritureTest.setDate(new Date());
+        ecritureTest.setLibelle("Bureaux");
+        comptabiliteDao.insertEcritureComptable(ecritureTest);
+        Integer expectedSize = beforeNb + 1 ;
+        Integer actualSize = comptabiliteDao.getListEcritureComptable().size() ;
+        assertEquals(expectedSize, actualSize);
+	}
 	
 	@Test
-	public void insertListLigneEcritureComptableTest() {
+	public void insertListLigneEcritureComptableTest() throws NotFoundException {
+		Integer beforeNb = comptabiliteDao.getListEcritureComptable().size()  ;
 		LigneEcritureComptable ligne1 = new LigneEcritureComptable(new CompteComptable(411,"Clients"), null, new BigDecimal(18), null);
 		LigneEcritureComptable ligne2 = new LigneEcritureComptable(new CompteComptable(512,"Banque"), null, null, new BigDecimal(18));
 		List<LigneEcritureComptable> lignes = new ArrayList<>() ;
@@ -149,6 +150,8 @@ public class ComptabiliteDaoImplTestIntegration {
         ecritureTest.setLibelle("Bureaux");
 		ecritureTest.getListLigneEcriture().addAll(lignes);
 		comptabiliteDao.insertEcritureComptable(ecritureTest);
+		EcritureComptable ecritureResultat = comptabiliteDao.getEcritureComptableByRef("AC-2016/00007");
+		assertEquals(2,ecritureResultat.getListLigneEcriture().size());
 	}
 
 	
