@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class ComptabiliteDaoImplTestIntegration {
 	@Test
 	public void getListEcritureComptableTest_ListSizeOK() {
 		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
-		assertNotNull(ecritures);
+		assertEquals("Nb d'écritures comptables récupérées incorrectes", 5, ecritures.size());
 	}
 	@Test
 	public void getListEcritureComptableTest_JournalCodeValueOK() {
@@ -122,7 +123,7 @@ public class ComptabiliteDaoImplTestIntegration {
 	
 	 // ==================== EcritureComptable - INSERT ====================
 	@Test
-	public void insertEcritureComptableTest_GivenNewEcritureComptable()  {
+	public void insertEcritureComptableTest_GivenNewEcritureComptable() throws NotFoundException  {
 		Integer beforeNb = comptabiliteDao.getListEcritureComptable().size()  ;
         EcritureComptable ecritureTest = new EcritureComptable();
         ecritureTest.setJournal(new JournalComptable("AC","Achat"));
@@ -133,6 +134,10 @@ public class ComptabiliteDaoImplTestIntegration {
         Integer expectedSize = beforeNb + 1 ;
         Integer actualSize = comptabiliteDao.getListEcritureComptable().size() ;
         assertEquals(expectedSize, actualSize);
+        //Fin du test, suppression de la l'écriture commptable créée
+        EcritureComptable ecritureASupprimer = comptabiliteDao.getEcritureComptableByRef("AC-2016/00006");
+        comptabiliteDao.deleteEcritureComptable(ecritureASupprimer.getId());
+        
 	}
 	
 	@Test
@@ -152,6 +157,9 @@ public class ComptabiliteDaoImplTestIntegration {
 		comptabiliteDao.insertEcritureComptable(ecritureTest);
 		EcritureComptable ecritureResultat = comptabiliteDao.getEcritureComptableByRef("AC-2016/00007");
 		assertEquals("Nombre de lignes comptables insérées incorrect",2,ecritureResultat.getListLigneEcriture().size());
+        //Fin du test, suppression de la l'écriture commptable créée
+        EcritureComptable ecritureASupprimer = comptabiliteDao.getEcritureComptableByRef("AC-2016/00007");
+        comptabiliteDao.deleteEcritureComptable(ecritureASupprimer.getId());
 	}
 	
     // ==================== EcritureComptable - UPDATE ====================
@@ -159,22 +167,48 @@ public class ComptabiliteDaoImplTestIntegration {
 	public void updateEcritureComptableTest() throws NotFoundException  {
 		EcritureComptable ecritureTest = comptabiliteDao.getEcritureComptable(-4);
         ecritureTest.setJournal(new JournalComptable("AC","Achat"));
-        ecritureTest.setReference("AC-2017/00006");
+        ecritureTest.setReference("AC-2017/00010");
+        Calendar c1 = Calendar.getInstance();
+        c1.set(2019,03,14,0,0,0);
+        ecritureTest.setDate(c1.getTime());;
         ecritureTest.setLibelle("Papiers");
         comptabiliteDao.updateEcritureComptable(ecritureTest);
         EcritureComptable ecritureActual = comptabiliteDao.getEcritureComptable(-4);
-        assertEquals("AC", ecritureActual.getJournal().getCode());
-        assertEquals("AC-2017/00006", ecritureActual.getReference());
-        assertEquals("Papiers", ecritureActual.getLibelle());
+        assertEquals("Le code du journal n'a pas été mis à jour correctement,","AC", ecritureActual.getJournal().getCode());
+        assertEquals("La référence n'a pas été mise à jour correctement", "AC-2017/00010", ecritureActual.getReference());
+        assertEquals("La date n'es pas été mise à joure correctement","2019-04-14",ecritureActual.getDate().toString());
+        assertEquals("Le libellé n'a pas été mis à jour correctement","Papiers", ecritureActual.getLibelle());
+        //Fin du test - re-initialisation des données :
+        ecritureTest.setJournal(new JournalComptable("VE","Vente"));
+        ecritureTest.setReference("VE-2016/00004");
+        Calendar c2 = Calendar.getInstance();
+        c2.set(2016,12,28,0,0,0);
+        ecritureTest.setDate(c2.getTime());;
+        ecritureTest.setLibelle("TMA Appli Yyy");
+        comptabiliteDao.updateEcritureComptable(ecritureTest);      
 	}
 	
-    // ==================== EcritureComptable - DELETE ====================
-	@Test
-	public void deleteEcritureComptableTest() throws NotFoundException  {
-		Integer initialSize = comptabiliteDao.getListEcritureComptable().size()  ;
-		comptabiliteDao.deleteEcritureComptable(-3);
-		Integer expectedSize = initialSize - 1;
-		Integer actualSize = comptabiliteDao.getListEcritureComptable().size();
-		assertEquals(expectedSize,actualSize);
-	}
+//    // ==================== EcritureComptable - DELETE ====================
+//	@Test
+//	public void deleteEcritureComptableTest_ExistingId() throws NotFoundException  {
+//		Integer initialSize = comptabiliteDao.getListEcritureComptable().size()  ;
+//		EcritureComptable ecritureBackUp = comptabiliteDao.getEcritureComptable(-3);
+//		comptabiliteDao.deleteEcritureComptable(-3);
+//		Integer expectedSize = initialSize - 1;
+//		Integer actualSize = comptabiliteDao.getListEcritureComptable().size();
+//		assertEquals(expectedSize,actualSize);
+//		System.out.println("ecritureBackUp");
+//		System.out.println(ecritureBackUp.getId());
+//		System.out.println(ecritureBackUp.getLibelle());
+//		//Fin du test, je remets l'écriture supprimée en base de données
+//		comptabiliteDao.insertEcritureComptable(ecritureBackUp);
+//	}
+//	
+//	@Test 
+//	public void deleteEcritureComptableTest_NonExistantId() throws NotFoundException  {
+//
+//		comptabiliteDao.deleteEcritureComptable(10);
+//
+//	}
+//	// ATTENTION : Manque tests sur la suprression des lignes comptables 
 }

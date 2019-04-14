@@ -19,13 +19,14 @@ public class App {
 //		}
     	
     	Calendar c1 = Calendar.getInstance(); 	  
-        // set Month 
-        // MONTH starts with 0 i.e. ( 0 - Jan) 
-        c1.set(Calendar.MONTH, 04);   
-        // set Date 
-        c1.set(Calendar.DATE, 12);   
-        // set Year 
-        c1.set(Calendar.YEAR, 2019);   
+//        // set Month 
+//        // MONTH starts with 0 i.e. ( 0 - Jan) 
+//        c1.set(Calendar.MONTH, 04);   
+//        // set Date 
+//        c1.set(Calendar.DATE, 12);   
+//        // set Year 
+//        c1.set(Calendar.YEAR, 2019);   
+    	c1.set(2019,03,14);
         // creating a date object with specified time. 
         Date dateTest = c1.getTime(); 
         System.out.println(dateTest);
