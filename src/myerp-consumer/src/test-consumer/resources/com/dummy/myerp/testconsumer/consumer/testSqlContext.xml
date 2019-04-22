@@ -20,6 +20,12 @@
                 SELECT * FROM myerp.journal_comptable
             </value>
         </property>
+        <property name="SQLgetJournalComptableByCode">
+            <value>
+                SELECT * FROM myerp.journal_comptable
+                WHERE code = :code
+            </value>
+        </property>
         <property name="SQLgetListEcritureComptable">
             <value>
                 SELECT * FROM myerp.ecriture_comptable

@@ -1,20 +1,24 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.TransactionStatus;
+
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -58,6 +62,22 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
+    
+    /**
+     * Ajoute une référence à l'écriture comptable.
+     *
+     * <strong>RG_Compta_5 : </strong>
+     * La référence d'une écriture comptable est composée du code du journal dans lequel figure l'écriture
+     * suivi de l'année et d'un numéro de séquence (propre à chaque journal) sur 5 chiffres incrémenté automatiquement
+     * à chaque écriture. Le formatage de la référence est : XX-AAAA/#####.
+     * <br>
+     * Ex : Journal de banque (BQ), écriture au 31/12/2016
+     * <pre>BQ-2016/00001</pre>
+     *
+     * <p><strong>Attention :</strong> l'écriture n'est pas enregistrée en persistance</p>
+     * @param pEcritureComptable L'écriture comptable concernée
+     */
+    
     // TODO à tester
     @Override
     public synchronized void addReference(EcritureComptable pEcritureComptable) {
@@ -74,6 +94,27 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
                     (table sequence_ecriture_comptable)
          */
+//    	1.  Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
+//        (table sequence_ecriture_comptable)
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(pEcritureComptable.getDate());
+    	Integer annee = calendar.get(Calendar.YEAR);
+    	String reference = "";
+    	List<JournalComptable> journaux = getDaoProxy().getComptabiliteDao().getListJournalComptable();
+    	for(JournalComptable j : journaux) {
+    		if ( j.getCode().equals(pEcritureComptable.getJournal().getCode())) {
+//    			JournalComptable journal = j;
+    			List<SequenceEcritureComptable> sequences = j.getListSequenceEcritureComptable();
+    		}
+    	}
+
+//    	3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
+    	pEcritureComptable.setReference(reference);
+//    	4.  Enregistrer (insert/update) la valeur de la séquence en persitance
+//      (table sequence_ecriture_comptable)
+    	
+    	
+    	
     }
 
     /**

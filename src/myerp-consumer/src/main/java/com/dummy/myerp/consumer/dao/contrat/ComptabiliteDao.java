@@ -25,7 +25,30 @@ public interface ComptabiliteDao {
      * @return {@link List}
      */
     List<JournalComptable> getListJournalComptable();
+    
+    /**
+     * Renvoie le Journal Comptable {@code pCode}.
+     *
+     * @param pCode Code du journal Comptable
+     * @return {@link JournalComptable}
+     * @throws NotFoundException : Si le JournalComptable n'est pas trouvé
+     */
+    JournalComptable getJournalComptableByCode(String pCode) throws NotFoundException;
 
+    // ==================== SequenceEcritureComptable ====================
+    /**
+     * Insert une nouvelle séquence d'écriture comptable.
+     *
+     */
+    public void insertSequenceEcritureComptable(String pJournalCode, Integer pAnnee, Integer pDerniereValeur) ;
+    /**
+     * Met à jour la sequence d'écriture comptable.
+     *
+     * @param pJournalCode -
+     * @param pAnnee -
+     * @param pDerniereValeur -
+     */
+    public void updateSequenceEcritureComptable(String pJournalCode, Integer pAnnee, Integer pDerniereValeur) ;
 
     // ==================== EcritureComptable ====================
 
