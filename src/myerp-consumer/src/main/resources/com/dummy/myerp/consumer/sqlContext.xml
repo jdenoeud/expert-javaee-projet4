@@ -18,6 +18,7 @@
         </property>
         
 <!--         Journal Comptable -->
+
         <property name="SQLgetListJournalComptable">
             <value>
                 SELECT * FROM myerp.journal_comptable
@@ -31,6 +32,16 @@
         </property>
         
 <!--         Séquence Ecriture Comptable -->
+
+        <property name="SQLgetLastSequenceByCodeAndYear">
+            <value>
+                SELECT * FROM myerp.sequence_ecriture_comptable
+                WHERE
+                    journal_code = :journal_code 
+                AND	
+                	annee = :annee 
+            </value>
+        </property>
  		<property name="SQLinsertListLigneEcritureComptable">
             <value>
                 INSERT INTO myerp.sequence_ecriture_comptable (

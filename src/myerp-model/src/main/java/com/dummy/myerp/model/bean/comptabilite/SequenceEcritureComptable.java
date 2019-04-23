@@ -9,7 +9,9 @@ public class SequenceEcritureComptable {
     // ==================== Attributs ====================
     /** L'année */
     private Integer annee;
-    /** La dernière valeur utilisée */
+    /**Journal Comptable */
+    private JournalComptable journal;
+	/** La dernière valeur utilisée */
     private Integer derniereValeur;
 
     // ==================== Constructeurs ====================
@@ -44,6 +46,14 @@ public class SequenceEcritureComptable {
     public void setDerniereValeur(Integer pDerniereValeur) {
         derniereValeur = pDerniereValeur;
     }
+    
+    public JournalComptable getJournal() {
+		return journal;
+	}
+
+	public void setJournal(JournalComptable journal) {
+		this.journal = journal;
+	}
 
 
     // ==================== Méthodes ====================

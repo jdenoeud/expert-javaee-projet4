@@ -13,12 +13,14 @@ import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.CompteComptab
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.EcritureComptableRM;
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.JournalComptableRM;
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.LigneEcritureComptableRM;
+import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.SequenceEcritureComptableRM;
 import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 import com.dummy.myerp.consumer.db.DataSourcesEnum;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 
@@ -99,25 +101,25 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 	
     // ==================== SequenceEcritureComptable - GET ====================
 
-//    /** SQLgetEcritureComptableByRef */
-//    private static String SQLgetLastSequenceByCodeAndYear;
-//    public void setSQLgetLastSequenceByCodeAndYear(String pSQLgetLastSequenceByCodeAndYear) {
-//    	SQLgetLastSequenceByCodeAndYear = pSQLgetLastSequenceByCodeAndYear;
-//    }
-//	@Override
-//	public SequenceEcritureComptable getLastSequenceByCodeAndYear(String pCode, Integer pAnnee) throws NotFoundException {
-//		 NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
-//	     MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
-//	     vSqlParams.addValue("code", pCode);
-//	     JournalComptableRM vRM = new JournalComptableRM();
-//	     JournalComptable vBean;
-//	     try {
-//	        vBean = vJdbcTemplate.queryForObject(SQLgetJournalComptableByCode, vSqlParams, vRM);
-//	     } catch (EmptyResultDataAccessException vEx) {
-//	        throw new NotFoundException("JournalComptable non trouvé : code_journal=" + pCode);
-//	     }
-//	     return vBean;
-//	}
+    /** SQLgetEcritureComptableByRef */
+    private static String SQLgetLastSequenceByCodeAndYear;
+    public void setSQLgetLastSequenceByCodeAndYear(String pSQLgetLastSequenceByCodeAndYear) {
+    	SQLgetLastSequenceByCodeAndYear = pSQLgetLastSequenceByCodeAndYear;
+    }
+	@Override
+	public SequenceEcritureComptable getLastSequenceByCodeAndYear(String pCode, Integer pAnnee) throws NotFoundException {
+		 NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+	     MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+	     vSqlParams.addValue("code", pCode);
+	     SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
+	     SequenceEcritureComptable vBean;
+	     try {
+	        vBean = vJdbcTemplate.queryForObject(SQLgetLastSequenceByCodeAndYear, vSqlParams, vRM);
+	     } catch (EmptyResultDataAccessException vEx) {
+	        throw new NotFoundException("Aucun enregistrement pour le journal pour l'année concernée");
+	     }
+	     return vBean;
+	}
 	
 	
     // ==================== SequenceEcritureComptable - INSERT ====================
@@ -347,6 +349,8 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("ecriture_id", pEcritureId);
         vJdbcTemplate.update(SQLdeleteListLigneEcritureComptable, vSqlParams);
     }
+
+
 
 
 }
