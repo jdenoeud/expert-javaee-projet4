@@ -1,24 +1,16 @@
 package com.dummy.myerp.consumer;
 
+import java.util.Calendar;
+
 public class App {
 	
 	public static void main( String[] args )
     {
-    	System.out.println( "Hello DAO !" );
-    	Integer derniereValeur = 12345;
-    	String numSequence = "";
-    	if (derniereValeur<10) {
-    		numSequence = "0000"+Integer.toString(derniereValeur);
-    	} else if (derniereValeur<100) {
-    		numSequence = "000"+Integer.toString(derniereValeur);
-    	} else if (derniereValeur<1000) {
-    		numSequence = "00"+Integer.toString(derniereValeur);
-    	} else if (derniereValeur<10000) {
-    		numSequence = "0"+Integer.toString(derniereValeur);
-    	} else {
-    		numSequence = Integer.toString(derniereValeur);
-    	}
-    	System.out.println(numSequence);
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.set(2016, 11, 03);
+    	System.out.println(calendar.toString());
+    	Integer annee = calendar.get(Calendar.YEAR);
+    	System.out.println(annee);
   
     }
 

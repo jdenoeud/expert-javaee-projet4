@@ -123,7 +123,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	reference = pEcritureComptable.getJournal().getCode()+"-"+Integer.toString(annee)+"/"+numSequence;
 //    	3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
     	pEcritureComptable.setReference(reference);
-
     }
 
     /**

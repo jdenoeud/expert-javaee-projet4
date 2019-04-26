@@ -33,7 +33,14 @@ public class SequenceEcritureComptable {
     }
 
 
-    // ==================== Getters/Setters ====================
+    public SequenceEcritureComptable(Integer annee, JournalComptable journal, Integer derniereValeur) {
+		super();
+		this.annee = annee;
+		this.journal = journal;
+		this.derniereValeur = derniereValeur;
+	}
+
+	// ==================== Getters/Setters ====================
     public Integer getAnnee() {
         return annee;
     }

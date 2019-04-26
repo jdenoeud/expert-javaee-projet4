@@ -53,6 +53,25 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>myerp-consumer</artifactId>
         </dependency>
+        
+                    <!-- ===== Spring IOC ===== -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- ===== Spring JDBC/Tx ===== -->
         <!-- spring-tx : transaction, JCA, DAO -->
@@ -60,6 +79,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
         </dependency>
+        
+       <!-- ===== Spring TEST ===== -->
+        <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-test</artifactId>
+	        <scope>test</scope>
+	    </dependency>
 
         <!-- ===== JSR 303 - Bean validation ===== -->
         <!-- implementation -->
