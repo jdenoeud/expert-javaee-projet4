@@ -191,10 +191,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(pEcritureComptable.getDate());
-    	String annee = Integer.toString(calendar.get(Calendar.YEAR));
-    	if ( pEcritureComptable.getReference() ==null) {
-    		System.out.println("L'écriture comptable est nulle");
-    	} else {
+    	String annee = "-"+Integer.toString(calendar.get(Calendar.YEAR))+"/";
+    	if ( pEcritureComptable.getReference() != null) {
     		if (!pEcritureComptable.getReference().contains(annee)) {
             	throw new FunctionalException(
                         "L'année de la référence ne correspond pas à la date de l'écriture");

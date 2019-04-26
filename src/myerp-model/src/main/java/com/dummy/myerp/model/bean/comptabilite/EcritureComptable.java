@@ -31,6 +31,7 @@ public class EcritureComptable {
     @NotNull private Date date;
 
     /** The Libelle. */
+    
     @NotNull
     @Size(min = 1, max = 200)
     private String libelle;
