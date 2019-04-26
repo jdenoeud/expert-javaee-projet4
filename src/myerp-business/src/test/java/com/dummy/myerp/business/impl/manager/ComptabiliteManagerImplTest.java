@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,7 +32,9 @@ public class ComptabiliteManagerImplTest {
 //    public void initTest() {
 //        this.dao.initMock();
 //    }
-//Code existant
+    @Rule 
+    public ExpectedException expectedEx = ExpectedException.none();
+
     @Test
     public void checkEcritureComptableUnit() throws Exception {
         EcritureComptable vEcritureComptable;
@@ -38,6 +42,7 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(new Date());
         vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setReference("AC-2019/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
@@ -45,17 +50,23 @@ public class ComptabiliteManagerImplTest {
                                                                                  null, null,
                                                                                  new BigDecimal(123)));
         manager.checkEcritureComptableUnit(vEcritureComptable);
-    }
+//       System.out.println(vEcritureComptable.getReference());
+        }
 
-    @Test(expected = FunctionalException.class)
+    @Test
     public void checkEcritureComptableUnitViolation() throws Exception {
+    	expectedEx.expect(FunctionalException.class);
+        expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
         manager.checkEcritureComptableUnit(vEcritureComptable);
+        
     }
 
-    @Test(expected = FunctionalException.class)
+    @Test
     public void checkEcritureComptableUnitRG2() throws Exception {
+    	expectedEx.expect(FunctionalException.class);
+        expectedEx.expectMessage("L'écriture comptable n'est pas équilibrée.");
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -70,7 +81,7 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
-    @Test(expected = FunctionalException.class)
+    @Test (expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG3() throws Exception {
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
@@ -85,8 +96,46 @@ public class ComptabiliteManagerImplTest {
                                                                                  null));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
+//        
+//        @Test
+//        public void checkEcritureComptableUnitRG5_wrongYear() throws Exception {
+//        	expectedEx.expect(FunctionalException.class);
+//            expectedEx.expectMessage("L'année de la référence ne correspond pas à la date de l'écriture");
+//            EcritureComptable vEcritureComptable;
+//            vEcritureComptable = new EcritureComptable();
+//            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+//            vEcritureComptable.setDate(new Date());
+//            vEcritureComptable.setLibelle("Libelle");
+//            vEcritureComptable.setReference("AC-2016/00001");
+//            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+//                                                                                     null, new BigDecimal(123),
+//                                                                                     null));
+//            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+//                                                                                     null, new BigDecimal(123),
+//                                                                                     null));
+//            manager.checkEcritureComptableUnit(vEcritureComptable);
+//        }
+//        
+//       @Test
+//       public void checkEcritureComptableUnitRG5_wrongJournalCode() throws Exception {
+//    	   expectedEx.expect(FunctionalException.class);
+//           expectedEx.expectMessage("L'année de la référence ne correspond pas à la date de l'écriture");
+//            EcritureComptable vEcritureComptable;
+//            vEcritureComptable = new EcritureComptable();
+//            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+//            vEcritureComptable.setDate(new Date());
+//            vEcritureComptable.setLibelle("Libelle");
+//            vEcritureComptable.setReference("VE-2019/00001");
+//            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+//                                                                                         null, new BigDecimal(123),
+//                                                                                         null));
+//            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+//                                                                                         null, new BigDecimal(123),
+//                                                                                         null));
+//            manager.checkEcritureComptableUnit(vEcritureComptable);
+//        }
 
-//    CODE AJOUTE
+ // ==================== Test de la méthode AddReference ====================
     @Test
     public synchronized void addReferenceTest_whenNoSequenceExistsYet() {
     	EcritureComptable vEcritureComptable;

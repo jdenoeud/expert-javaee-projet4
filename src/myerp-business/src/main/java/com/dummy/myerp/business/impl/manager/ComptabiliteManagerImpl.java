@@ -78,7 +78,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable L'écriture comptable concernée
      */
     
-    // TODO à tester
+    // TODO à tester ==> FAIT
     @Override
     public synchronized void addReference(EcritureComptable pEcritureComptable) {
         // TODO à implémenter ==> FAIT
@@ -128,6 +128,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
+    /**
+     * Vérifie que l'Ecriture comptable respecte les règles de gestion.
+     *
+     * @param pEcritureComptable -
+     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
+     */
     // TODO à tester
     @Override
     public void checkEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
@@ -143,7 +149,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable -
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
-    // TODO tests à compléter
+    // TODO tests à compléter 
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
@@ -183,6 +189,23 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(pEcritureComptable.getDate());
+    	String annee = Integer.toString(calendar.get(Calendar.YEAR));
+    	if ( pEcritureComptable.getReference() ==null) {
+    		System.out.println("L'écriture comptable est nulle");
+    	} else {
+    		if (!pEcritureComptable.getReference().contains(annee)) {
+            	throw new FunctionalException(
+                        "L'année de la référence ne correspond pas à la date de l'écriture");
+            }
+            if (!pEcritureComptable.getReference().contains(pEcritureComptable.getJournal().getCode())) {
+            	throw new FunctionalException(
+                        "Le code journal de la référence ne correspond pas au journal de l'écriture");
+            }	
+    	}
+
+        
     }
 
 

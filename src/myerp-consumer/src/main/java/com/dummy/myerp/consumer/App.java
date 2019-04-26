@@ -1,16 +1,15 @@
 package com.dummy.myerp.consumer;
 
-import java.util.Calendar;
+import java.util.regex.Pattern;
 
 public class App {
 	
 	public static void main( String[] args )
     {
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.set(2016, 11, 03);
-    	System.out.println(calendar.toString());
-    	Integer annee = calendar.get(Calendar.YEAR);
-    	System.out.println(annee);
+//		boolean b = Pattern.matches("\\d{1,5}-\\d{4}/\\d{5}", "AC-2016/00001");
+		boolean b = Pattern.matches("[A-Z]{2}-\\d{4}/\\d{5}", "AC-2016/00001");
+		System.out.println(b);
+    	
   
     }
 
