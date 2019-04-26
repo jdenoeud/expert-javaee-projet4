@@ -35,6 +35,7 @@ public class ComptabiliteManagerImplTest {
     @Rule 
     public ExpectedException expectedEx = ExpectedException.none();
 
+// ==================== Test de la méthode checkEcritureComptableUnit ====================
     @Test
     public void checkEcritureComptableUnit() throws Exception {
         EcritureComptable vEcritureComptable;
@@ -153,6 +154,44 @@ public class ComptabiliteManagerImplTest {
             manager.checkEcritureComptableUnit(vEcritureComptable);
         }
        
+ // ==================== Test de la méthode checkEcritureComptableContext ====================
+   @Test
+   public void checkEcritureComptableContext_whenReferenceAlreadyExists() throws Exception {  
+	   expectedEx.expect(FunctionalException.class);
+       expectedEx.expectMessage("Une autre écriture comptable existe déjà avec la même référence.");
+       EcritureComptable vEcritureComptable;
+       vEcritureComptable = new EcritureComptable();
+       vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+       vEcritureComptable.setDate(new Date());
+       vEcritureComptable.setLibelle("Libelle");
+       vEcritureComptable.setReference("AC-2019/00001");
+       vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+               null, new BigDecimal(123),
+               null));
+       vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+               null, null,
+               new BigDecimal(123)));
+
+       manager.checkEcritureComptable(vEcritureComptable);
+   }
+   
+   @Test
+   public void checkEcritureComptable_whenReferenceDoesNotExist() throws Exception {  
+       EcritureComptable vEcritureComptable;
+       vEcritureComptable = new EcritureComptable();
+       vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+       vEcritureComptable.setDate(new Date());
+       vEcritureComptable.setLibelle("Libelle");
+       vEcritureComptable.setReference("AC-2019/00245");
+       vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+               null, new BigDecimal(123),
+               null));
+       vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+               null, null,
+               new BigDecimal(123)));
+
+       manager.checkEcritureComptable(vEcritureComptable);
+   }
       
  // ==================== Test de la méthode AddReference ====================
     @Test

@@ -1,11 +1,14 @@
 package com.dummy.myerp.business.impl.manager;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -61,7 +64,22 @@ public class ComptabiliteDaoMock implements ComptabiliteDao{
 
 	@Override
 	public EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException {
-		return null;
+		EcritureComptable vEcritureComptable = new EcritureComptable();
+		vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+	    vEcritureComptable.setDate(new Date());
+	    vEcritureComptable.setLibelle("Libelle");
+	    vEcritureComptable.setReference("AC-2019/00245");
+	    vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+	                                                                                null, new BigDecimal(123),
+	                                                                                null));
+	    vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+	                                                                                null, null,
+	                                                                                new BigDecimal(123)));
+		if (pReference.equals("AC-2019/00001")) {
+			return vEcritureComptable;
+		} else  {
+			throw new NotFoundException("EcritureComptable non trouvée : reference=" + pReference);
+		}
 	}
 
 	@Override
