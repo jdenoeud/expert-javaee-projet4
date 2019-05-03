@@ -42,7 +42,7 @@
                 	annee = :annee 
             </value>
         </property>
- 		<property name="SQLinsertListLigneEcritureComptable">
+ 		<property name="SQLinsertSequenceEcritureComptable">
             <value>
                 INSERT INTO myerp.sequence_ecriture_comptable (
                     journal_code, annee, derniere_valeur

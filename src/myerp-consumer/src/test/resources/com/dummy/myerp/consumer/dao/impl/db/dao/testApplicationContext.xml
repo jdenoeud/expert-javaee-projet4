@@ -57,5 +57,5 @@
 
 
     <!-- ========== SQL ========== -->
-    <import resource="classpath:testSqlContext.xml"/>
+    <import resource="testSqlContext.xml"/>
 </beans>
