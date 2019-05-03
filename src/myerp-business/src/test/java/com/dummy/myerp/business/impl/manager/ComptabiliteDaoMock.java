@@ -1,7 +1,8 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
@@ -66,16 +67,17 @@ public class ComptabiliteDaoMock implements ComptabiliteDao{
 	public EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException {
 		EcritureComptable vEcritureComptable = new EcritureComptable();
 		vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-	    vEcritureComptable.setDate(new Date());
-	    vEcritureComptable.setLibelle("Libelle");
-	    vEcritureComptable.setReference("AC-2019/00245");
+	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
+	    vEcritureComptable.setDate(calendar.getTime());
+	    vEcritureComptable.setLibelle("Cartouches d'imprimantes");
+	    vEcritureComptable.setReference("AC-2016/00001");
 	    vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
 	                                                                                null, new BigDecimal(123),
 	                                                                                null));
 	    vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
 	                                                                                null, null,
 	                                                                                new BigDecimal(123)));
-		if (pReference.equals("AC-2019/00001")) {
+		if (pReference.equals("AC-2016/00001")) {
 			return vEcritureComptable;
 		} else  {
 			throw new NotFoundException("EcritureComptable non trouvée : reference=" + pReference);

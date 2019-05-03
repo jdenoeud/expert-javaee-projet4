@@ -192,6 +192,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(pEcritureComptable.getDate());
     	String annee = "-"+Integer.toString(calendar.get(Calendar.YEAR))+"/";
+    	System.out.println(annee);
     	if ( pEcritureComptable.getReference() != null) {
     		if (!pEcritureComptable.getReference().contains(annee)) {
             	throw new FunctionalException(
