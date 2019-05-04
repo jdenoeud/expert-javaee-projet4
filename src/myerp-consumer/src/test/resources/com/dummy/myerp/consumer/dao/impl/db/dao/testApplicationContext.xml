@@ -57,5 +57,6 @@
 
 
     <!-- ========== SQL ========== -->
-    <import resource="testSqlContext.xml"/>
+<!--     <import resource="testSqlContext.xml"/> -->
+    <import resource="classpath:/com/dummy/myerp/consumer/sqlContext.xml"/>  
 </beans>

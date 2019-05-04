@@ -110,7 +110,8 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 	public SequenceEcritureComptable getLastSequenceByCodeAndYear(String pCode, Integer pAnnee) throws NotFoundException {
 		 NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
 	     MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
-	     vSqlParams.addValue("code", pCode);
+	     vSqlParams.addValue("journal_code", pCode);
+	     vSqlParams.addValue("annee", pAnnee);
 	     SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
 	     SequenceEcritureComptable vBean;
 	     try {
