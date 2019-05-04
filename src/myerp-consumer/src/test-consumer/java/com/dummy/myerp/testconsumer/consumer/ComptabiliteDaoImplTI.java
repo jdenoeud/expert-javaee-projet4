@@ -27,7 +27,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/**/testApplicationContext.xml" })
-public class ComptabiliteDaoImplTestIntegration {
+public class ComptabiliteDaoImplTI {
 	
 	@Autowired
 	@Qualifier(value="DaoProxy")
@@ -191,17 +191,17 @@ public class ComptabiliteDaoImplTestIntegration {
 	}
 	
     // ==================== EcritureComptable - DELETE ====================
-	@Test
-	public void deleteEcritureComptableTest_ExistingId() throws NotFoundException  {
-		Integer initialSize = comptabiliteDao.getListEcritureComptable().size()  ;
-		EcritureComptable ecritureBackUp = comptabiliteDao.getEcritureComptable(-3);
-		comptabiliteDao.deleteEcritureComptable(-3);
-		Integer expectedSize = initialSize - 1;
-		Integer actualSize = comptabiliteDao.getListEcritureComptable().size();
-		assertEquals(expectedSize,actualSize);
-		//Fin du test, je remets l'écriture supprimée en base de données
-		comptabiliteDao.insertEcritureComptable(ecritureBackUp);
-	}
+//	@Test
+//	public void deleteEcritureComptableTest_ExistingId() throws NotFoundException  {
+//		Integer initialSize = comptabiliteDao.getListEcritureComptable().size()  ;
+//		EcritureComptable ecritureBackUp = comptabiliteDao.getEcritureComptable(-3);
+//		comptabiliteDao.deleteEcritureComptable(-3);
+//		Integer expectedSize = initialSize - 1;
+//		Integer actualSize = comptabiliteDao.getListEcritureComptable().size();
+//		assertEquals(expectedSize,actualSize);
+//		//Fin du test, je remets l'écriture supprimée en base de données
+//		comptabiliteDao.insertEcritureComptable(ecritureBackUp);
+//	}
 
 //	// ATTENTION : Manque tests sur la suprression des lignes comptables lors de la suppression d'une ecriture Comptable
 }

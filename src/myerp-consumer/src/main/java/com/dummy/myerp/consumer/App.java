@@ -1,6 +1,8 @@
 package com.dummy.myerp.consumer;
 
 
+import java.math.BigDecimal;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +15,17 @@ public class App {
 //		System.out.println(b);
 		Logger logger = LogManager.getLogger();
 		logger.warn("ceci est un avertissement");
-
+		
+		BigDecimal valeur1 = new BigDecimal("2.84555");
+		BigDecimal arrondi = valeur1.setScale(1,BigDecimal.ROUND_CEILING);
+		System.out.println("valeur1= "+ arrondi);
+		
+		BigDecimal val1 = new BigDecimal(123.435);
+		System.out.println(val1);
+		BigDecimal val2 = new BigDecimal(123.435).setScale(2, BigDecimal.ROUND_HALF_UP);
+		System.out.println(val2);
+		BigDecimal val3 = new BigDecimal(123);
+		System.out.println(val3);
     }
 
 

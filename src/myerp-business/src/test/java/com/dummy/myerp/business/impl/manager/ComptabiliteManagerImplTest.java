@@ -37,8 +37,8 @@ public class ComptabiliteManagerImplTest {
     @Rule 
     public ExpectedException expectedEx = ExpectedException.none();
     
- // ==================== Test de la méthode AddReference ====================
-    //RG5 : teste l'ajout de la référence quand c'est le 1er enregistrement de l'annee concernée
+// ==================== Test de la méthode AddReference ====================
+    //RG_Compta_5 : teste l'ajout de la référence quand c'est le 1er enregistrement de l'annee concernée
     @Test
     public synchronized void addReferenceTest_whenNoSequenceExistsYet() {
     	EcritureComptable vEcritureComptable;
@@ -56,7 +56,7 @@ public class ComptabiliteManagerImplTest {
         assertEquals("AC-2019/00001", vEcritureComptable.getReference());
     }
     
-  //RG5 : teste l'ajout de la référence quand il existe déjà des enregistrements pour l'année concernée
+    //RG_Compta_5 : teste l'ajout de la référence quand il existe déjà des enregistrements pour l'année concernée
     @Test
     public synchronized void addReferenceTest_whenLastSequenceExists() {
     	EcritureComptable vEcritureComptable;
@@ -78,7 +78,7 @@ public class ComptabiliteManagerImplTest {
     
 
 // ==================== Test de la méthode checkEcritureComptableUnit ====================
-  //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
+    //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
     @Test
     public void checkEcritureComptableUnit_contraintes_respectees() throws Exception {
         EcritureComptable vEcritureComptable;
@@ -97,19 +97,57 @@ public class ComptabiliteManagerImplTest {
     }
 
     //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
+//    @Test
+//    public void checkEcritureComptableUnitViolation_contraintes_non_respectees() throws Exception {
+//    	expectedEx.expect(FunctionalException.class);
+//        expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
+//        EcritureComptable vEcritureComptable;
+//        vEcritureComptable = new EcritureComptable();
+//        manager.checkEcritureComptableUnit(vEcritureComptable);
+//        
+//    }
+    
+    //RG_Compta_4 : Vérifie que le montant des lignes d'écriture sont signés et peuvent être négatifs
     @Test
-    public void checkEcritureComptableUnitViolation_contraintes_non_respectees() throws Exception {
-    	expectedEx.expect(FunctionalException.class);
-        expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
+    public void checkEcritureComptableUnit_montant_ligne_signes() throws Exception {
+//    	expectedEx.expect(FunctionalException.class);
+//    	expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
+        EcritureComptable vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setReference("AC-2019/00001");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal("-123"),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal("-123")));       
         manager.checkEcritureComptableUnit(vEcritureComptable);
-        
-    }
-
-    // RG2 : Vérifie que l'écriture comptable est équilibrée
+     }
+    
+    //RG_Compta_7 : Vérifie que le montant des lignes d'écriture ne comportent pas plus de 2 chiffres après la virgule
     @Test
-    public void checkEcritureComptableUnitRG2() throws Exception {
+    public void checkEcritureComptableUnitViolation_nb_chiffres_apres_virgules_depasses() throws Exception {
+    	expectedEx.expect(FunctionalException.class);
+    	expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
+        EcritureComptable vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setReference("AC-2019/00001");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                                                                 null, new BigDecimal("123.564").setScale(3, BigDecimal.ROUND_HALF_UP),
+                                                                                 null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                                                                 null, null,
+                                                                                 new BigDecimal("123.564").setScale(3, BigDecimal.ROUND_HALF_UP)));       
+        manager.checkEcritureComptableUnit(vEcritureComptable);
+     }
+
+    // RG_Compta_2 : Vérifie que l'écriture comptable est équilibrée
+    @Test
+    public void checkEcritureComptableUnitRG2_ecriture_non_equilibree() throws Exception {
     	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'écriture comptable n'est pas équilibrée.");
         EcritureComptable vEcritureComptable;
