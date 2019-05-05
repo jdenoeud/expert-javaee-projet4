@@ -94,7 +94,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                     * Sinon :
                         1. Utiliser la dernière valeur + 1
                 3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
-                4.  Enregistrer (insert/update) la valeur de la séquence en persitance
+                4.  Enregistrer (insert/update) la valeur de la séquence en persistance
                     (table sequence_ecriture_comptable)
          */
     	Calendar calendar = Calendar.getInstance();
@@ -216,7 +216,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             }	
     	}
     	
-    	 // TODO ===== RG_Compta_7 : Les montants des lignes d'écritures comptables peuvent comporter 2 chiffres maximum après la virgules.
     }
 
 

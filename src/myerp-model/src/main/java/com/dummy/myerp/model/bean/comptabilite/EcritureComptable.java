@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -136,5 +137,22 @@ public class EcritureComptable {
             .append(StringUtils.join(listLigneEcriture, "\n")).append("\n]")
             .append("}");
         return vStB.toString();
+    }
+    /**
+     * Renvoie le {@link EcritureComptable} de référence  si elle est présente dans la liste
+     *
+     * @param pList la liste où chercher le {@link EcritureComptable}
+     * @param pNumero le référence de {@link EcritureComptable} à chercher
+     * @return {@link CompteComptable} ou {@code null}
+     */
+    public static EcritureComptable getInListByReference(List<? extends EcritureComptable> pList, String pReference) {
+        EcritureComptable vRetour = null;
+        for (EcritureComptable vBean : pList) {
+            if (vBean != null && Objects.equals(vBean.getReference(), pReference)) {
+                vRetour = vBean;
+                break;
+            }
+        }
+        return vRetour;
     }
 }

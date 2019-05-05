@@ -1,6 +1,7 @@
 package com.dummy.myerp.testconsumer.consumer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
@@ -27,7 +28,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/**/testApplicationContext.xml" })
-public class ComptabiliteDaoImplTI {
+public class ComptaDaoImplIntegTest {
 	
 	@Autowired
 	@Qualifier(value="DaoProxy")
@@ -71,9 +72,9 @@ public class ComptabiliteDaoImplTI {
 	
     // ==================== EcritureComptable - GET ====================
 	@Test
-	public void getListEcritureComptableTest_ListSizeOK() {
+	public void getListEcritureComptableTest_ListiSNotNull() {
 		List<EcritureComptable> ecritures = comptabiliteDao.getListEcritureComptable();
-		assertEquals("Nb d'écritures comptables récupérées incorrectes", 5, ecritures.size());
+		assertFalse( ecritures.isEmpty());
 	}
 	@Test
 	public void getListEcritureComptableTest_JournalCodeValueOK() {

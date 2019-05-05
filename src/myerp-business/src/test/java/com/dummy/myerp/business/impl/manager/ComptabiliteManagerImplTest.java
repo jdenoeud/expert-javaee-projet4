@@ -97,15 +97,15 @@ public class ComptabiliteManagerImplTest {
     }
 
     //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
-//    @Test
-//    public void checkEcritureComptableUnitViolation_contraintes_non_respectees() throws Exception {
-//    	expectedEx.expect(FunctionalException.class);
-//        expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
-//        EcritureComptable vEcritureComptable;
-//        vEcritureComptable = new EcritureComptable();
-//        manager.checkEcritureComptableUnit(vEcritureComptable);
-//        
-//    }
+    @Test
+    public void checkEcritureComptableUnitViolation_contraintes_non_respectees() throws Exception {
+    	expectedEx.expect(FunctionalException.class);
+        expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
+        EcritureComptable vEcritureComptable;
+        vEcritureComptable = new EcritureComptable();
+        manager.checkEcritureComptableUnit(vEcritureComptable);
+        
+    }
     
     //RG_Compta_4 : Vérifie que le montant des lignes d'écriture sont signés et peuvent être négatifs
     @Test
@@ -258,7 +258,8 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
        
- // ==================== Test de la méthode checkEcritureComptableContext ====================
+// ==================== Test de la méthode checkEcritureComptableContext ====================
+    //RG_Compta_6 : teste l'unicité de la référence comptable avec une écriture comptable qui existe déjà
     @Test
     public void checkEcritureComptableContext_whenReferenceAlreadyExists() throws Exception {  
     	expectedEx.expect(FunctionalException.class);
@@ -280,6 +281,7 @@ public class ComptabiliteManagerImplTest {
     	manager.checkEcritureComptable(vEcritureComptable);
     }
     
+    //RG_Compta_6 : teste l'unicité de la référence comptable avec une écriture comptable qui existe déjà  mais avec un id différent   
     @Test
     public void checkEcritureComptableContext_whenReferenceExists_but_Id_is_different() throws Exception {  
     	expectedEx.expect(FunctionalException.class);
@@ -302,7 +304,7 @@ public class ComptabiliteManagerImplTest {
     	manager.checkEcritureComptable(vEcritureComptable);
     }  
    
-    
+    //RG_Compta_6 : teste l'unicité de la référence comptable avec une écriture comptable qui n'existe pas encore
     @Test
     public void checkEcritureComptable_whenReferenceDoesNotExist() throws Exception {  
     	EcritureComptable vEcritureComptable;
