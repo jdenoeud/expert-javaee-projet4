@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,57 +29,40 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     @Rule 
 	public ExpectedException expectedEx = ExpectedException.none();
 	
-//    private EcritureComptable vEcritureComptable;
-//    
-//    @Before
-//    private void initializeEcritureComptable() {
+    private EcritureComptable vEcritureComptable;
+    
+    @Before
+    public void initializeEcritureComptable() {
 //    	EcritureComptable vEcritureComptable;
-//    	vEcritureComptable = new EcritureComptable();
-//    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-//    	vEcritureComptable.setDate(new Date());
-//    	vEcritureComptable.setLibelle("Fournitures");
-//    	vEcritureComptable.setReference("AC-2019/00245");
-//    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
-//               null, new BigDecimal(123),
-//               null));
-//    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
-//               null, null,
-//               new BigDecimal(123)));
-//    }
+    	vEcritureComptable = new EcritureComptable();
+    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+	    vEcritureComptable.setLibelle("Libelle");
+    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+               null, new BigDecimal(123),
+               null));
+    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
+               null, null,
+               new BigDecimal(123)));
+    }
+    
 // ==================== Test de la méthode AddReference ====================
     
 	//RG_Compta_5 : teste l'ajout de la référence quand c'est le 1er enregistrement de l'annee concernée
 	@Test
 	public synchronized void addReferenceTest_whenNoSequenceExistsYet() {
-		EcritureComptable vEcritureComptable = new EcritureComptable();
-	    vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-	    vEcritureComptable.setDate(new Date());
-	    vEcritureComptable.setLibelle("Libelle");
-	    vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1), 
-	                                                                                 null, new BigDecimal(123),
-	                                                                                 null));
-	    vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-	                                                                                 null, null,
-	                                                                                 new BigDecimal(123)));
+		vEcritureComptable.setDate(new Date());
 	    manager.addReference(vEcritureComptable);
+	    
 	    assertEquals("AC-2019/00001", vEcritureComptable.getReference());
 	}
     
     //RG_Compta_5 : teste l'ajout de la référence quand il existe déjà des enregistrements pour l'année concernée
     @Test
     public synchronized void addReferenceTest_whenLastSequenceExists() {
-    	EcritureComptable vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
     	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
         vEcritureComptable.setDate(calendar.getTime());
-        vEcritureComptable.setLibelle("Libelle");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1), 
-                                                                                 null, new BigDecimal(123),
-                                                                                 null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                                                                                 null, null,
-                                                                                 new BigDecimal(123)));
         manager.addReference(vEcritureComptable);
+        
         assertEquals("AC-2016/00041", vEcritureComptable.getReference());
     }
     
@@ -89,18 +73,9 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     public void checkEcritureComptableContext_whenReferenceAlreadyExists() throws Exception {  
     	expectedEx.expect(FunctionalException.class);
     	expectedEx.expectMessage("Une autre écriture comptable existe déjà avec la même référence.");
-    	EcritureComptable vEcritureComptable = new EcritureComptable();
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
 	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
     	vEcritureComptable.setDate(calendar.getTime());
-    	vEcritureComptable.setLibelle("Cartouches d'imprimantes");
     	vEcritureComptable.setReference("AC-2016/00001");
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-               null, new BigDecimal(123),
-               null));
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-               null, null,
-               new BigDecimal(123)));
 
     	manager.checkEcritureComptable(vEcritureComptable);
     }
@@ -110,20 +85,10 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     public void checkEcritureComptableContext_whenReferenceExists_but_Id_is_different() throws Exception {  
     	expectedEx.expect(FunctionalException.class);
     	expectedEx.expectMessage("Une autre écriture comptable existe déjà avec la même référence.");
-    	EcritureComptable vEcritureComptable;
-    	vEcritureComptable = new EcritureComptable();
     	vEcritureComptable.setId(10);
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
 	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
     	vEcritureComptable.setDate(calendar.getTime());
-    	vEcritureComptable.setLibelle("Cartouches d'imprimantes");
     	vEcritureComptable.setReference("AC-2016/00001");
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-               null, new BigDecimal(123),
-               null));
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-               null, null,
-               new BigDecimal(123)));
 
     	manager.checkEcritureComptable(vEcritureComptable);
     }  
@@ -131,18 +96,8 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     //RG_Compta_6 : teste l'unicité de la référence comptable avec une écriture comptable qui n'existe pas encore   
     @Test
     public void checkEcritureComptable_whenReferenceDoesNotExist() throws Exception {  
-    	EcritureComptable vEcritureComptable;
-    	vEcritureComptable = new EcritureComptable();
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
     	vEcritureComptable.setDate(new Date());
-    	vEcritureComptable.setLibelle("Libelle");
     	vEcritureComptable.setReference("AC-2019/00245");
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-               null, new BigDecimal(123),
-               null));
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-               null, null,
-               new BigDecimal(123)));
     	try {
     		manager.checkEcritureComptable(vEcritureComptable);
     	} catch (Exception e) {
@@ -154,17 +109,9 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     // Teste l'ajout avec succès d'une écriture comptable respectant toutes les règles de gestion
     @Test
     public void insertEcritureComptableTest_givenCorrectEcritureComptable_returnSuccess() throws Exception {
-        EcritureComptable vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(new Date());
         vEcritureComptable.setLibelle("Fauteuil de bureau");
         vEcritureComptable.setReference("AC-2019/00250");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
-                                                                                 null, new BigDecimal(123),
-                                                                                 null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
-                                                                                 null, null,
-                                                                                 new BigDecimal(123)));
         manager.insertEcritureComptable(vEcritureComptable);
         
         List<EcritureComptable> ecritures = manager.getListEcritureComptable();
