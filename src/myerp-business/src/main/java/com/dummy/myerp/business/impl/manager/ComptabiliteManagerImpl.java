@@ -19,6 +19,7 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SoldeCompteComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -59,7 +60,30 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
     
-   
+	@Override
+	public SoldeCompteComptable getSoldeCompteComptable(Integer pNumero) {
+		SoldeCompteComptable vSolde = new SoldeCompteComptable();
+		List<LigneEcritureComptable> lignes = getDaoProxy().getComptabiliteDao().getListLigneEcritureComptable(pNumero);
+		BigDecimal total = new BigDecimal("0");
+		for (LigneEcritureComptable l : lignes) {
+			if (l.getDebit() != null) {
+                total = total.add(l.getDebit());
+            } else {
+                total = total.add(l.getCredit());
+            }
+		}
+		vSolde.setValeur(total);
+		if (total.compareTo(BigDecimal.ZERO) > 0 ) {
+			vSolde.setLibelle("Solde débiteur");
+		} else if (total.compareTo(BigDecimal.ZERO) < 0) {
+			vSolde.setLibelle("Solde créditeur");
+		} else {
+			vSolde.setLibelle("Solde nul");
+		}
+		return vSolde;
+		
+		
+	}
     
     
     /**
@@ -291,4 +315,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
+
+
+
 }

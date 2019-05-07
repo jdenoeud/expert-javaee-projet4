@@ -1,6 +1,7 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -102,6 +103,19 @@ public class ComptabiliteDaoMock implements ComptabiliteDao{
 	@Override
 	public void deleteEcritureComptable(Integer pId) {
 		
+	}
+
+	@Override
+	public List<LigneEcritureComptable> getListLigneEcritureComptable(Integer pNumero) {
+		List<LigneEcritureComptable> lignes = new ArrayList<LigneEcritureComptable>();
+		if (pNumero.equals(512)) {
+			LigneEcritureComptable ligne1 = new LigneEcritureComptable();
+			ligne1.setCredit(new BigDecimal("52,74"));
+			LigneEcritureComptable ligne2 = new LigneEcritureComptable();
+			ligne1.setDebit(new BigDecimal("3000"));
+			lignes.add(ligne2);
+		}
+		return lignes;
 	}
 
 

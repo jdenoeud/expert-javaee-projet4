@@ -5,6 +5,7 @@ import java.util.List;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.SoldeCompteComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
 
@@ -35,7 +36,15 @@ public interface ComptabiliteManager {
      * @return {@link List}
      */
     List<EcritureComptable> getListEcritureComptable();
-
+    
+    /**
+     * Renvoie le solde d'un compte comptable.
+     *
+     * @param pNumero -
+     * @throws FunctionalException Si le solde du compte comptable ne respecte pas les règles de gestion
+     */
+    SoldeCompteComptable getSoldeCompteComptable(Integer pNumero);
+    
     /**
      * Ajoute une référence à l'écriture comptable.
      *

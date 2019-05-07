@@ -350,8 +350,22 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("ecriture_id", pEcritureId);
         vJdbcTemplate.update(SQLdeleteListLigneEcritureComptable, vSqlParams);
     }
-
-
-
+    
+    // ==================== LigneEcritureComptable - INSERT ====================
+    /** SQLgetListLigneEcritureComptable */
+    private static String SQLgetListLigneEcritureComptable;
+    public void setSQLgetListLigneEcritureComptable(String pSQLgetListLigneEcritureComptable) {
+        SQLgetListLigneEcritureComptable = pSQLgetListLigneEcritureComptable;
+    }
+    @Override
+    public List<LigneEcritureComptable> getListLigneEcritureComptable(Integer pNumero) {
+    	NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+    	MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+    	vSqlParams.addValue("numero", pNumero);
+    	LigneEcritureComptableRM vRM = new LigneEcritureComptableRM();
+    	List<LigneEcritureComptable> vList = vJdbcTemplate.query(SQLgetEcritureComptable, vSqlParams, vRM);
+    	return vList;
+    }
+    
 
 }
