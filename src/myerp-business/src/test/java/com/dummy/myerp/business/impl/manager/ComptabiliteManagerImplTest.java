@@ -50,7 +50,7 @@ public class ComptabiliteManagerImplTest {
     	
     	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
     	assertEquals(new BigDecimal("2947.26"), compteActual.getValeur());
-    	assertEquals("Solde débiteur",compteActual.getLibelle());
+    	assertEquals("Solde débiteur", compteActual.getLibelle());
     	
     }
     

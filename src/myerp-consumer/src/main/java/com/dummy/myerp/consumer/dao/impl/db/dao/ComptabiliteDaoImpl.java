@@ -363,7 +363,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     	MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
     	vSqlParams.addValue("numero", pNumero);
     	LigneEcritureComptableRM vRM = new LigneEcritureComptableRM();
-    	List<LigneEcritureComptable> vList = vJdbcTemplate.query(SQLgetEcritureComptable, vSqlParams, vRM);
+    	List<LigneEcritureComptable> vList = vJdbcTemplate.query(SQLgetListLigneEcritureComptable, vSqlParams, vRM);
     	return vList;
     }
     

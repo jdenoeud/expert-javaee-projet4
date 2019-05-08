@@ -20,6 +20,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SoldeCompteComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
 public class ComptaManagerImplIntegTest extends BusinessTestCase {
@@ -40,9 +41,33 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
                null, new BigDecimal(123),
                null));
-    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
+    	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606),
                null, null,
                new BigDecimal(123)));
+    }
+    
+// ==================== Test de la méthode AddReference ====================
+    
+    // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien débiteur 
+    // dans le cas où plusieurs lignes d'écriture existent pour ce compte
+    
+    @Test
+    public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnSucess() {
+    	CompteComptable compte = new CompteComptable(512, "Banque");
+    	
+    	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
+    	assertEquals(new BigDecimal("2947.26"), compteActual.getValeur());
+    	assertEquals("Solde débiteur", compteActual.getLibelle());
+    }
+    
+    // RG_Compta_1 : teste que la solde est nul dans le cas où aucune ligne associée au compteComptable
+    @Test
+    public void getSoldeCompteComptableTest_whenCompteWithNoLigneEcriture_returnSoldeNul() {
+    	CompteComptable compte = new CompteComptable(805, "Compte fictif");
+    	
+    	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
+    	assertEquals(BigDecimal.ZERO, compteActual.getValeur());
+    	assertEquals("Solde nul",compteActual.getLibelle());
     }
     
 // ==================== Test de la méthode AddReference ====================
@@ -129,7 +154,7 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
         initialEcriture.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
-        initialEcriture.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(512),
+        initialEcriture.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606),
                                                                                  null, null,
                                                                                  new BigDecimal(123)));
         manager.updateEcritureComptable(initialEcriture);
