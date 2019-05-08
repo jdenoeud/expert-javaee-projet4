@@ -109,15 +109,12 @@ public class ComptabiliteDaoMock implements ComptabiliteDao{
 	public List<LigneEcritureComptable> getListLigneEcritureComptable(Integer pNumero) {
 		List<LigneEcritureComptable> lignes = new ArrayList<LigneEcritureComptable>();
 		if (pNumero.equals(512)) {
-			LigneEcritureComptable ligne1 = new LigneEcritureComptable();
-			ligne1.setCredit(new BigDecimal("52,74"));
-			LigneEcritureComptable ligne2 = new LigneEcritureComptable();
-			ligne1.setDebit(new BigDecimal("3000"));
+			LigneEcritureComptable ligne1 = new LigneEcritureComptable(new CompteComptable(512), null, null, new BigDecimal("52.74"));
+			lignes.add(ligne1);
+			LigneEcritureComptable ligne2 = new LigneEcritureComptable(new CompteComptable(512), null, new BigDecimal("3000"),null);
 			lignes.add(ligne2);
 		}
 		return lignes;
 	}
-
-
 
 }

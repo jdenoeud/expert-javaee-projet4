@@ -19,6 +19,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SoldeCompteComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,6 +37,31 @@ public class ComptabiliteManagerImplTest {
 //    }
     @Rule 
     public ExpectedException expectedEx = ExpectedException.none();
+    
+    
+ // ==================== Test de la méthode AddReference ====================
+    
+    // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien débiteur 
+    // dans le cas où plusieurs lignes d'écriture existent pour ce compte
+    
+    @Test
+    public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnSucess() {
+    	CompteComptable compte = new CompteComptable(512, "Banque");
+    	
+    	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
+    	assertEquals(new BigDecimal("2947.26"), compteActual.getValeur());
+    	assertEquals("Solde débiteur",compteActual.getLibelle());
+    	
+    }
+    
+    @Test
+    public void getSoldeCompteComptableTest_whenCompteWithNoLigneEcriture_returnSoldeNul() {
+    	CompteComptable compte = new CompteComptable(805, "Compte fictif");
+    	
+    	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
+    	assertEquals(BigDecimal.ZERO, compteActual.getValeur());
+    	assertEquals("Solde nul",compteActual.getLibelle());
+    }
     
 // ==================== Test de la méthode AddReference ====================
     //RG_Compta_5 : teste l'ajout de la référence quand c'est le 1er enregistrement de l'annee concernée

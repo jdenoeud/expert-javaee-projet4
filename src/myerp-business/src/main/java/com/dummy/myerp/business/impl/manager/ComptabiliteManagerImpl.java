@@ -60,6 +60,11 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
     
+    // ===== RG_Compta_1 ==== 
+    // Le solde d'un compte comptable est égal à la somme des montants au débit diminiuées de la somme des
+    // montants au crédit. Si le résultat est positif, le solde est dit "débiteur", 
+    // si le résultat est négatif, le solde est dit"créditeur"
+    
 	@Override
 	public SoldeCompteComptable getSoldeCompteComptable(Integer pNumero) {
 		SoldeCompteComptable vSolde = new SoldeCompteComptable();
@@ -69,7 +74,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 			if (l.getDebit() != null) {
                 total = total.add(l.getDebit());
             } else {
-                total = total.add(l.getCredit());
+                total = total.subtract(l.getCredit());
             }
 		}
 		vSolde.setValeur(total);
@@ -81,8 +86,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 			vSolde.setLibelle("Solde nul");
 		}
 		return vSolde;
-		
-		
 	}
     
     
