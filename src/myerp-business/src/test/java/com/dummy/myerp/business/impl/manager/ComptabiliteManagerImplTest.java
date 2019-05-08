@@ -1,6 +1,7 @@
 package com.dummy.myerp.business.impl.manager;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
@@ -42,10 +43,10 @@ public class ComptabiliteManagerImplTest {
  // ==================== Test de la méthode AddReference ====================
     
     // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien débiteur 
-    // dans le cas où plusieurs lignes d'écriture existent pour ce compte
+    // dans le cas où plusieurs lignes d'écriture existent pour ce compte et le compte est débiteur
     
     @Test
-    public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnSucess() {
+    public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnCompteDebiteur() {
     	CompteComptable compte = new CompteComptable(512, "Banque");
     	
     	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
@@ -53,7 +54,19 @@ public class ComptabiliteManagerImplTest {
     	assertEquals("Solde débiteur", compteActual.getLibelle());
     	
     }
+ // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien créditeur 
     
+    @Test
+    public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnCompteCrediteur() {
+    	CompteComptable compte = new CompteComptable(706, "Prestations de services");
+    	
+    	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
+    	assertTrue(new BigDecimal("-7250").compareTo(compteActual.getValeur())==0);
+    	assertEquals("Solde créditeur", compteActual.getLibelle());
+    	
+    }
+    
+    // RG_Compta_1 : teste que la solde est nul dans le cas où aucune ligne associée au compteComptable
     @Test
     public void getSoldeCompteComptableTest_whenCompteWithNoLigneEcriture_returnSoldeNul() {
     	CompteComptable compte = new CompteComptable(805, "Compte fictif");

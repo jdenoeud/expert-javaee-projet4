@@ -113,6 +113,11 @@ public class ComptabiliteDaoMock implements ComptabiliteDao{
 			lignes.add(ligne1);
 			LigneEcritureComptable ligne2 = new LigneEcritureComptable(new CompteComptable(512), null, new BigDecimal("3000"),null);
 			lignes.add(ligne2);
+		} else if (pNumero.equals(706)) {
+			LigneEcritureComptable ligne3 = new LigneEcritureComptable(new CompteComptable(706), null, null, new BigDecimal("2500"));
+			lignes.add(ligne3);
+			LigneEcritureComptable ligne4 = new LigneEcritureComptable(new CompteComptable(706), null, null, new BigDecimal("4750"));
+			lignes.add(ligne4);
 		}
 		return lignes;
 	}

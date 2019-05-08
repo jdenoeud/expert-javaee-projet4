@@ -2,6 +2,7 @@ package com.dummy.myerp.testbusiness.business;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
@@ -58,6 +59,17 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
     	assertEquals(new BigDecimal("2947.26"), compteActual.getValeur());
     	assertEquals("Solde débiteur", compteActual.getLibelle());
+    }
+    
+    // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien créditeur 
+    @Test
+    public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnCompteCrediteur() {
+    	CompteComptable compte = new CompteComptable(706, "Prestations de services");
+    	
+    	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
+    	assertTrue(new BigDecimal("-7250").compareTo(compteActual.getValeur())==0);
+    	assertEquals("Solde créditeur", compteActual.getLibelle());
+    	
     }
     
     // RG_Compta_1 : teste que la solde est nul dans le cas où aucune ligne associée au compteComptable
