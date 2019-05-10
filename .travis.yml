@@ -1,6 +1,14 @@
 language: java
 
-script: "mvn clean install -P test-business"
+services:
+  - docker
+    
+before_install:
+    - cd docker/dev
+    - docker-compose up
+
+script: 
+    - mvn clean install -P test-business
 
 notifications:
   email:
@@ -8,3 +16,10 @@ notifications:
       - justine.denoeud@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+
+
+
+### Lancement
+
+    cd docker/dev
+    docker-compose up
