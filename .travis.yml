@@ -16,10 +16,3 @@ notifications:
       - justine.denoeud@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
-
-
-
-### Lancement
-
-    cd docker/dev
-    docker-compose up
