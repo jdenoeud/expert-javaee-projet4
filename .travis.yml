@@ -7,13 +7,15 @@ services:
     
 before_install:
     - cd docker/dev
-    - docker-compose pull
-    - docker-compose build
-    - docker-compose start
-    - docker ps -a
+    - docker-compose up -d
+    - cd ../..
 
 script: 
     - mvn clean install -P test-business
+    
+after_script:
+    - cd docker/dev
+    - docker-compose stop
 
 notifications:
   email:
