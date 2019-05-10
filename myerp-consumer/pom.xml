@@ -54,7 +54,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
-        
          <!-- ===== Spring IOC ===== -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -73,12 +72,19 @@
             <artifactId>spring-beans</artifactId>
             <scope>compile</scope>
         </dependency>
+
+        <!-- ===== Spring JDBC/Tx ===== -->
+        <!-- spring-tx : transaction, JCA, DAO -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
         
-        <!-- ===== Spring TEST ===== -->
+       <!-- ===== Spring TEST ===== -->
         <dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-test</artifactId>
-	        <scope>test</scope>
+	        <scope>compile</scope> 
 	    </dependency>
 
         <!-- ========== Test Dependencies ========== -->

@@ -204,5 +204,4 @@ public class ComptaDaoImplIntegTest {
 //		comptabiliteDao.insertEcritureComptable(ecritureBackUp);
 //	}
 
-//	// ATTENTION : Manque tests sur la suprression des lignes comptables lors de la suppression d'une ecriture Comptable
 }
