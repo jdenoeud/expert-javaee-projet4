@@ -1,2 +1,10 @@
 language: java
+
 script: "mvn clean install -P test-business"
+
+notifications:
+  email:
+    recipients:
+      - justine.denoeud@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
