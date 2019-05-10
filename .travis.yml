@@ -7,15 +7,20 @@ services:
     
 before_install:
     - cd docker/dev
+    - docker-compose rm -v -f
     - docker-compose up -d
     - cd ../..
 
 script: 
     - mvn clean install -P test-business
     
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)
+    
 after_script:
     - cd docker/dev
     - docker-compose stop
+    - docker-compose rm -v -f
 
 notifications:
   email:
@@ -24,5 +29,4 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
     
-#after_success:
-#  - bash <(curl -s https://codecov.io/bash)
+
