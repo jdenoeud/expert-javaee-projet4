@@ -12,7 +12,7 @@ before_install:
 
 script: 
     - mvn clean install -P test-business
-    - mvn cobertura:cobertura
+    - mvn cobertura:cobertura -P test-business
     
     
 after_success:
