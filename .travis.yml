@@ -7,15 +7,14 @@ services:
     
 before_install:
     - cd docker/dev
-    - docker-compose rm -v -f
     - docker-compose up -d
     - cd ../..
 
 script: 
     - mvn clean install -P test-business
     
-#after_success:
-#  - bash <(curl -s https://codecov.io/bash)
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
     
 after_script:
     - cd docker/dev
