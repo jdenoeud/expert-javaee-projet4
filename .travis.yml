@@ -6,12 +6,15 @@ services:
   - docker
     
 before_install:
-    - cd docker/dev
-    - docker-compose up
-    - docker ps -a
+    - sudo apt-get update
+    - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
+    - docker-compose --version
+#    - cd docker/dev
+#    - docker-compose up
+#   - docker ps -a
 
 script: 
-    - mvn clean install -P test-business
+#    - mvn clean install -P test-business
 
 notifications:
   email:
@@ -19,3 +22,6 @@ notifications:
       - justine.denoeud@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+    
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)
