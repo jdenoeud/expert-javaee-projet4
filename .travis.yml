@@ -5,15 +5,13 @@ language: java
 services:
   - docker
     
-#before_install:
-   # - cd docker/dev
-   # - docker-compose up
-   # - docker ps -a
+before_install:
+    - cd docker/dev
+    - docker-compose up
+    - docker ps -a
 
 script: 
-    - docker-compose up
     - mvn clean install -P test-business
-    - docker-compose stop
 
 notifications:
   email:
