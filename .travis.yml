@@ -6,13 +6,14 @@ services:
   - docker
     
 before_install:
-    - docker-compose --version
-#    - cd docker/dev
-#    - docker-compose up
-#   - docker ps -a
+    - cd docker/dev
+    - docker-compose pull
+    - docker-compose build
+    - docker-compose start
+    - docker ps -a
 
-#script: 
-#    - mvn clean install -P test-business
+script: 
+    - mvn clean install -P test-business
 
 notifications:
   email:
