@@ -11,8 +11,8 @@ before_install:
     - cd ../..
 
 script: 
-    - mvn clean install -P test-business
-    - mvn cobertura:cobertura -P test-business
+    - mvn clean install -P test-business,test-consumer
+    - mvn cobertura:cobertura -P test-business,test-consumer
     
     
 after_success:
