@@ -27,7 +27,6 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:/com/dummy/myerp/testconsumer/consumer/testApplicationContext.xml" })
 @ContextConfiguration(locations = { "classpath:/com/dummy/myerp/testconsumer/consumer/testApplicationContext.xml" })
 public class ComptaDaoImplIntegTest {
 	

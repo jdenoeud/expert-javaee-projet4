@@ -35,7 +35,6 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     
     @Before
     public void initializeEcritureComptable() {
-//    	EcritureComptable vEcritureComptable;
     	vEcritureComptable = new EcritureComptable();
     	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
 	    vEcritureComptable.setLibelle("Libelle");
@@ -57,7 +56,7 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     	CompteComptable compte = new CompteComptable(512, "Banque");
     	
     	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
-    	assertEquals(new BigDecimal("2947.26"), compteActual.getValeur());
+    	assertTrue(new BigDecimal("2947.26").compareTo(compteActual.getValeur())==0);
     	assertEquals("Solde débiteur", compteActual.getLibelle());
     }
     
@@ -150,9 +149,9 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
         vEcritureComptable.setLibelle("Fauteuil de bureau");
         vEcritureComptable.setReference("AC-2019/00250");
         manager.insertEcritureComptable(vEcritureComptable);
-        
         List<EcritureComptable> ecritures = manager.getListEcritureComptable();
         EcritureComptable ecriture = EcritureComptable.getInListByReference(ecritures, "AC-2019/00250");
+        
         assertEquals("Fauteuil de bureau", ecriture.getLibelle());
     }
     
@@ -169,10 +168,10 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
         initialEcriture.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606),
                                                                                  null, null,
                                                                                  new BigDecimal(123)));
-        manager.updateEcritureComptable(initialEcriture);
-        
+        manager.updateEcritureComptable(initialEcriture);        
         List<EcritureComptable> modifiedEcritures = manager.getListEcritureComptable();
         EcritureComptable modifiedEcriture = EcritureComptable.getInListByReference(modifiedEcritures, "BQ-2016/00003");
+        
         assertEquals("Le libellé n'a pas été mis à jour correctement","Ecran 24 pouces", modifiedEcriture.getLibelle());
         assertEquals("Les lignes d'écritures n'ont pas été mises à jour", 4, modifiedEcriture.getListLigneEcriture().size());
     }
@@ -181,10 +180,9 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
     //Teste la suppression de l'EcritureComptable d'id -5
     @Test
     public void deleteEcritureComptableTest_givenExistingEcritureComptable_returnSuccess() throws Exception {
-        
         manager.deleteEcritureComptable(-5);
-        
         List<EcritureComptable> modifiedEcritures = manager.getListEcritureComptable();
+        
         assertNull("Le libellé n'a pas été mis à jour correctement", EcritureComptable.getInListByReference(modifiedEcritures, "BQ-2016/00005"));
     }
     

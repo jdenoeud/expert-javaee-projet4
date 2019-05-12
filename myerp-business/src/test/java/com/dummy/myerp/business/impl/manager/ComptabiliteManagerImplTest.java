@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,33 +29,36 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 public class ComptabiliteManagerImplTest {
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
-//    @Autowired
-//    @Qualifier(value="comptabiliteDaoMock")
-//    private ComptabiliteDaoMock dao;
-//
-//    @Before
-//    public void initTest() {
-//        this.dao.initMock();
-//    }
+
     @Rule 
     public ExpectedException expectedEx = ExpectedException.none();
     
+    private EcritureComptable vEcritureComptable;
+    
+    @Before
+    public void initializeEcritureComptable() {
+    	vEcritureComptable = new EcritureComptable();
+    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+	    vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setDate(new Date());
+    }
     
  // ==================== Test de la méthode AddReference ====================
     
     // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien débiteur 
-    // dans le cas où plusieurs lignes d'écriture existent pour ce compte et le compte est débiteur
+    // dans le cas où plusieurs lignes d'écriture existent pour ce compte 
     
     @Test
     public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnCompteDebiteur() {
     	CompteComptable compte = new CompteComptable(512, "Banque");
     	
     	SoldeCompteComptable compteActual = manager.getSoldeCompteComptable(compte.getNumero());
-    	assertEquals(new BigDecimal("2947.26"), compteActual.getValeur());
+    	assertTrue(new BigDecimal("2947.26").compareTo(compteActual.getValeur())==0);
     	assertEquals("Solde débiteur", compteActual.getLibelle());
     	
     }
  // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien créditeur 
+    // dans le cas où plusieurs lignes d'écriture existent pour ce compte 
     
     @Test
     public void getSoldeCompteComptableTest_whenCompteWithLigneEcriture_returnCompteCrediteur() {
@@ -80,11 +84,6 @@ public class ComptabiliteManagerImplTest {
     //RG_Compta_5 : teste l'ajout de la référence quand c'est le 1er enregistrement de l'annee concernée
     @Test
     public synchronized void addReferenceTest_whenNoSequenceExistsYet() {
-    	EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1), 
                                                                                  null, new BigDecimal(123),
                                                                                  null));
@@ -98,13 +97,9 @@ public class ComptabiliteManagerImplTest {
     //RG_Compta_5 : teste l'ajout de la référence quand il existe déjà des enregistrements pour l'année concernée
     @Test
     public synchronized void addReferenceTest_whenLastSequenceExists() {
-    	EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
     	Calendar calendar = Calendar.getInstance();
     	calendar.set(2016, 11, 03);
         vEcritureComptable.setDate(calendar.getTime());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1), 
                                                                                  null, new BigDecimal(123),
                                                                                  null));
@@ -120,11 +115,6 @@ public class ComptabiliteManagerImplTest {
     //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
     @Test
     public void checkEcritureComptableUnit_contraintes_respectees() throws Exception {
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.setReference("AC-2019/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
@@ -140,8 +130,6 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableUnitViolation_contraintes_non_respectees() throws Exception {
     	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
         manager.checkEcritureComptableUnit(vEcritureComptable);
         
     }
@@ -149,12 +137,6 @@ public class ComptabiliteManagerImplTest {
     //RG_Compta_4 : Vérifie que le montant des lignes d'écriture sont signés et peuvent être négatifs
     @Test
     public void checkEcritureComptableUnit_montant_ligne_signes() throws Exception {
-//    	expectedEx.expect(FunctionalException.class);
-//    	expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
-        EcritureComptable vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.setReference("AC-2019/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal("-123"),
@@ -170,10 +152,6 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableUnitViolation_nb_chiffres_apres_virgules_depasses() throws Exception {
     	expectedEx.expect(FunctionalException.class);
     	expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
-        EcritureComptable vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.setReference("AC-2019/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal("123.564").setScale(3, BigDecimal.ROUND_HALF_UP),
@@ -189,11 +167,6 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableUnitRG2_ecriture_non_equilibree() throws Exception {
     	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'écriture comptable n'est pas équilibrée.");
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
@@ -205,11 +178,6 @@ public class ComptabiliteManagerImplTest {
 
     @Test (expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG3() throws Exception {
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
@@ -221,9 +189,6 @@ public class ComptabiliteManagerImplTest {
     
     @Test
     public void checkEcritureComptableUnitRG5_GoodYearInReference() throws Exception {  
-	  	EcritureComptable vEcritureComptable;
-	  	vEcritureComptable = new EcritureComptable();
-	  	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
 	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
 	  	vEcritureComptable.setDate(calendar.getTime());
 	  	vEcritureComptable.setLibelle("Cartouches d'imprimantes");
@@ -245,11 +210,6 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableUnitRG5_wrongYear() throws Exception {
     	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'année de la référence ne correspond pas à la date de l'écriture");
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.setReference("AC-2016/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, new BigDecimal(123),
@@ -261,13 +221,8 @@ public class ComptabiliteManagerImplTest {
      } 
     @Test
     public void checkEcritureComptableUnitRG5_wrongYearBis() throws Exception {
-       expectedEx.expect(FunctionalException.class);
+    	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'année de la référence ne correspond pas à la date de l'écriture");
-        EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.setReference("AC-2016/02019");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                     null, new BigDecimal(123),
@@ -282,11 +237,6 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableUnitRG5_wrongJournalCode() throws Exception {
     	expectedEx.expect(FunctionalException.class);
     	expectedEx.expectMessage("Le code journal de la référence ne correspond pas au journal de l'écriture");
-    	EcritureComptable vEcritureComptable;
-    	vEcritureComptable = new EcritureComptable();
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
         vEcritureComptable.setReference("VE-2019/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                     null, new BigDecimal(123),
@@ -303,9 +253,6 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableContext_whenReferenceAlreadyExists() throws Exception {  
     	expectedEx.expect(FunctionalException.class);
     	expectedEx.expectMessage("Une autre écriture comptable existe déjà avec la même référence.");
-    	EcritureComptable vEcritureComptable;
-    	vEcritureComptable = new EcritureComptable();
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
 	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
     	vEcritureComptable.setDate(calendar.getTime());
     	vEcritureComptable.setLibelle("Cartouches d'imprimantes");
@@ -325,10 +272,7 @@ public class ComptabiliteManagerImplTest {
     public void checkEcritureComptableContext_whenReferenceExists_but_Id_is_different() throws Exception {  
     	expectedEx.expect(FunctionalException.class);
     	expectedEx.expectMessage("Une autre écriture comptable existe déjà avec la même référence.");
-    	EcritureComptable vEcritureComptable;
-    	vEcritureComptable = new EcritureComptable();
     	vEcritureComptable.setId(10);
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
 	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
     	vEcritureComptable.setDate(calendar.getTime());
     	vEcritureComptable.setLibelle("Cartouches d'imprimantes");
@@ -346,11 +290,6 @@ public class ComptabiliteManagerImplTest {
     //RG_Compta_6 : teste l'unicité de la référence comptable avec une écriture comptable qui n'existe pas encore
     @Test
     public void checkEcritureComptable_whenReferenceDoesNotExist() throws Exception {  
-    	EcritureComptable vEcritureComptable;
-    	vEcritureComptable = new EcritureComptable();
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-    	vEcritureComptable.setDate(new Date());
-    	vEcritureComptable.setLibelle("Libelle");
     	vEcritureComptable.setReference("AC-2019/00245");
     	vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                null, new BigDecimal(123),
