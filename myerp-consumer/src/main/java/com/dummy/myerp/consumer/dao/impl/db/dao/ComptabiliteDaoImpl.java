@@ -120,8 +120,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 	        throw new NotFoundException("Aucun enregistrement pour le journal pour l'année concernée");
 	     }
 	     return vBean;
-	}
-	
+	}	
 	
     // ==================== SequenceEcritureComptable - INSERT ====================
 

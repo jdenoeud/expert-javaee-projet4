@@ -24,6 +24,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -70,6 +71,27 @@ public class ComptaDaoImplIntegTest {
 		assertEquals("Valeur du libelle incorrecte", "Achat", journaux.get(0).getLibelle());
 	}
 	
+    // ==================== JournalComptable - GET ====================
+	@Test
+	public void getJournalComptableByCode_WhenCodeIsBQ_returnBanque() throws NotFoundException {
+		JournalComptable journal = comptabiliteDao.getJournalComptableByCode("BQ");
+		assertEquals("Banque", journal.getLibelle());
+	}
+	@Test(expected = NotFoundException.class)
+	public void getJournalComptableByCode_WhenCodeIsFalse_returnNotFoundException() throws NotFoundException {
+		JournalComptable journal = comptabiliteDao.getJournalComptableByCode("TOTO");
+	}
+	
+    // ==================== SequenceEcritureComptable - GET ====================
+	@Test
+	public void getLastSequenceByCodeAndYear_journalODandYear2016_return88() throws NotFoundException {
+		SequenceEcritureComptable lastSequence = comptabiliteDao.getLastSequenceByCodeAndYear("OD", 2016);
+		assertEquals(Integer.valueOf(88), lastSequence.getDerniereValeur());
+	}
+	@Test(expected = NotFoundException.class)
+	public void getLastSequenceByCodeAndYear_returnNotFoundException() throws NotFoundException {
+		SequenceEcritureComptable lastSequence = comptabiliteDao.getLastSequenceByCodeAndYear("OD", 2021);
+	}
     // ==================== EcritureComptable - GET ====================
 	@Test
 	public void getListEcritureComptableTest_ListiSNotNull() {
