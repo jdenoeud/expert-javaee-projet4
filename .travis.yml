@@ -12,11 +12,6 @@ before_install:
 
 script: 
     - mvn clean install -P test-business,test-consumer
-    - mvn cobertura:cobertura -P test-business,test-consumer
-    
-    
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
     
 after_script:
     - cd docker/dev
