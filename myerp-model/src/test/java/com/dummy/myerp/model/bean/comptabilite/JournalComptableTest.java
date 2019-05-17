@@ -1,5 +1,6 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
@@ -34,6 +35,12 @@ public class JournalComptableTest {
     	journauxComptables.add(journal3);
     	JournalComptable journalActual = JournalComptable.getByCode(journauxComptables, "PK");
     	assertNull(journalActual);
+	}
+	
+	@Test
+	public void toStringTest() {
+		JournalComptable journal = new JournalComptable("AC","Achat");
+		assertEquals("JournalComptable{code='AC', libelle='Achat'}",journal.toString());
 	}
 	
 }

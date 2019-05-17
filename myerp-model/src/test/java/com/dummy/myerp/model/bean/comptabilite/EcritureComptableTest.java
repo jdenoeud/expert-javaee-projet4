@@ -1,6 +1,11 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
@@ -21,7 +26,7 @@ public class EcritureComptableTest {
     }
 
     @Test
-    public void isEquilibree() {
+    public void isEquilibree_whenEcritureEquilibree() {
         EcritureComptable vEcriture;
         vEcriture = new EcritureComptable();
 
@@ -30,11 +35,14 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "301"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
-        System.out.println("Test 1");
-        System.out.println("somme des crédits= " + vEcriture.getTotalCredit());
-        System.out.println("somme des débits= " + vEcriture.getTotalDebit());
         
         Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
+    }
+    
+    @Test
+    public void isNotEquilibree_whenEcritureNOTEquilibree() {
+        EcritureComptable vEcriture;
+        vEcriture = new EcritureComptable();
 
         vEcriture.getListLigneEcriture().clear();
         vEcriture.setLibelle("Non équilibrée");
@@ -43,10 +51,6 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
         
-        System.out.println("Test 2");
-        System.out.println("somme des crédits= " + vEcriture.getTotalCredit());
-        System.out.println("somme des débits= " + vEcriture.getTotalDebit());
-       
         Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
     }
     
@@ -76,6 +80,28 @@ public class EcritureComptableTest {
          vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
          
          Assert.assertEquals("Somme des crédits incorrecte" , new BigDecimal(33),vEcriture.getTotalCredit());
+    }
+    
+    @Test
+    public void getInListByReference_whenEcrituureIsInTheListe() {
+    	List<EcritureComptable> ecritures = new ArrayList<EcritureComptable>();
+    	
+    	EcritureComptable vEcritureComptable1 = new EcritureComptable();
+    	vEcritureComptable1.setJournal(new JournalComptable("AC", "Achat"));
+	    vEcritureComptable1.setLibelle("Libelle");
+        vEcritureComptable1.setDate(new Date());
+        vEcritureComptable1.setReference("AC-2016/00001");
+        ecritures.add(vEcritureComptable1);
+        
+        EcritureComptable vEcritureComptable2 = new EcritureComptable();
+    	vEcritureComptable2.setJournal(new JournalComptable("VE", "Vente"));
+	    vEcritureComptable2.setLibelle("Libelle");
+        vEcritureComptable2.setReference("VE-2016/00002");
+        ecritures.add(vEcritureComptable2);
+        
+        EcritureComptable ecritureActual = EcritureComptable.getInListByReference(ecritures, "VE-2016/00002");
+        assertEquals(vEcritureComptable2.toString(), ecritureActual.toString());
+        
     }
     
  
