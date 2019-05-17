@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="ERROR">
+        <Root level="ERROR"> <!-- Mettre le level à "WARN" pour afficher les régles comptables non respectées -->
             <AppenderRef ref="console"/>
         </Root>
     </Loggers>

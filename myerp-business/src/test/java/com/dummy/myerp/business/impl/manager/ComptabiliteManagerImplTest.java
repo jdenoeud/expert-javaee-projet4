@@ -131,7 +131,6 @@ public class ComptabiliteManagerImplTest {
     	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'écriture comptable ne respecte pas les règles de gestion.");
         manager.checkEcritureComptableUnit(vEcritureComptable);
-        
     }
     
     //RG_Compta_4 : Vérifie que le montant des lignes d'écriture sont signés et peuvent être négatifs
@@ -143,7 +142,8 @@ public class ComptabiliteManagerImplTest {
                                                                                  null));
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
-                                                                                 new BigDecimal("-123")));       
+                                                                                 new BigDecimal("-123")));   
+        
         manager.checkEcritureComptableUnit(vEcritureComptable);
      }
     
@@ -158,7 +158,7 @@ public class ComptabiliteManagerImplTest {
                                                                                  null));
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                                                                  null, null,
-                                                                                 new BigDecimal("123.564").setScale(3, BigDecimal.ROUND_HALF_UP)));       
+                                                                                 new BigDecimal("123.564").setScale(3, BigDecimal.ROUND_HALF_UP)));    
         manager.checkEcritureComptableUnit(vEcritureComptable);
      }
 

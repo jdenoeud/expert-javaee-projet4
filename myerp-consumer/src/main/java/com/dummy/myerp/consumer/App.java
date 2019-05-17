@@ -1,10 +1,7 @@
 package com.dummy.myerp.consumer;
 
-
-import java.math.BigDecimal;
-
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class App {
 	
@@ -13,8 +10,9 @@ public class App {
 //		boolean b = Pattern.matches("\\d{1,5}-\\d{4}/\\d{5}", "AC-2016/00001");
 //		boolean b = Pattern.matches("[A-Z]{2}-\\d{4}/\\d{5}", "AC-2019/00245");
 //		System.out.println(b);
-//		Logger logger = LogManager.getLogger();
-//		logger.warn("ceci est un avertissement");
+		Logger logger = LogManager.getLogger();
+		logger.error("ceci est un avertissement");
+		System.out.println("test");
 //		
 //		BigDecimal valeur1 = new BigDecimal("2.84555");
 //		BigDecimal arrondi = valeur1.setScale(1,BigDecimal.ROUND_CEILING);
@@ -27,8 +25,8 @@ public class App {
 //		BigDecimal val3 = new BigDecimal(123);
 //		System.out.println(val3);
 //		
-		LigneEcritureComptable ligne2 = new LigneEcritureComptable(new CompteComptable(512), null, null, new BigDecimal("52.74"));
-		System.out.println(ligne2.getCredit());
+//		LigneEcritureComptable ligne2 = new LigneEcritureComptable(new CompteComptable(512), null, null, new BigDecimal("52.74"));
+//		System.out.println(ligne2.getCredit());
     }
 
 
