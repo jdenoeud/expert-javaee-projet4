@@ -46,7 +46,7 @@ public class ComptaManagerImplIntegTest extends BusinessTestCase {
                new BigDecimal(123)));
     }
     
-// ==================== Test de la méthode AddReference ====================
+// ==================== Test de la méthode getSoldeCompteComptable ====================
     
     // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien débiteur 
     // dans le cas où plusieurs lignes d'écriture existent pour ce compte

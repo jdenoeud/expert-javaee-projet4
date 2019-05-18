@@ -26,7 +26,7 @@ public class EcritureComptableTest {
     }
 
     @Test
-    public void isEquilibree_whenEcritureEquilibree() {
+    public void isEquilibree_whenEcritureIsEquilibree() {
         EcritureComptable vEcriture;
         vEcriture = new EcritureComptable();
 
@@ -40,7 +40,7 @@ public class EcritureComptableTest {
     }
     
     @Test
-    public void isNotEquilibree_whenEcritureNOTEquilibree() {
+    public void isNotEquilibree_whenEcritureIsNotEquilibree() {
         EcritureComptable vEcriture;
         vEcriture = new EcritureComptable();
 
@@ -100,9 +100,7 @@ public class EcritureComptableTest {
         ecritures.add(vEcritureComptable2);
         
         EcritureComptable ecritureActual = EcritureComptable.getInListByReference(ecritures, "VE-2016/00002");
-        assertEquals(vEcritureComptable2.toString(), ecritureActual.toString());
-        
-    }
-    
+        assertEquals(vEcritureComptable2.toString(), ecritureActual.toString()); 
+    }   
  
 }

@@ -95,23 +95,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
-    
-    /**
-     * Ajoute une référence à l'écriture comptable.
-     *
-     * <strong>RG_Compta_5 : </strong>
-     * La référence d'une écriture comptable est composée du code du journal dans lequel figure l'écriture
-     * suivi de l'année et d'un numéro de séquence (propre à chaque journal) sur 5 chiffres incrémenté automatiquement
-     * à chaque écriture. Le formatage de la référence est : XX-AAAA/#####.
-     * <br>
-     * Ex : Journal de banque (BQ), écriture au 31/12/2016
-     * <pre>BQ-2016/00001</pre>
-     *
-     * <p><strong>Attention :</strong> l'écriture n'est pas enregistrée en persistance</p>
-     * @param pEcritureComptable L'écriture comptable concernée
-     */
-    
-    // TODO à tester ==> FAIT
+	// TODO à tester ==> FAIT
     @Override
     public synchronized void addReference(EcritureComptable pEcritureComptable) {
         // TODO à implémenter ==> FAIT
@@ -154,19 +138,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	}
     	
     	reference = pEcritureComptable.getJournal().getCode()+"-"+Integer.toString(annee)+"/"+numSequence;
-//    	3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
     	pEcritureComptable.setReference(reference);
     	
     }
 
     /**
      * {@inheritDoc}
-     */
-    /**
-     * Vérifie que l'Ecriture comptable respecte les règles de gestion.
-     *
-     * @param pEcritureComptable -
-     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
     // TODO à tester ==> FAIT
     @Override
@@ -184,9 +161,11 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     // TODO tests à compléter ==> FAIT
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
+        // ===== RG_Compta_4 : montants des lignes signés et peuvent être négatif ==> inclus dans la vérification des contraintes ci-dessous
+    	// ===== RG_Compta_7 : montants des lignes avec 2 chiffres max après la virgule ==> inclus dans la vérification des contraintes ci-dessous
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
         if (!vViolations.isEmpty()) {
-//        	Affichage des messages de violation de contraintes dans la console
+        	// Affichage des messages de violation de contraintes 
         	for(ConstraintViolation<EcritureComptable> contraintes : vViolations) {
         		if( contraintes.getMessage().contains("la taille doit être entre 2 et 2147483647")) {
         			ComptabiliteManagerImpl.LOGGER.warn("[RG_Compta_3 non respectée]");
@@ -200,11 +179,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                                               "L'écriture comptable ne respecte pas les contraintes de validation",
                                               vViolations));
         }
-        
-        // ===== RG_Compta_4 : montants des lignes signés et peuvent être négatif ==> inclus dans la vérification des contraintes ci-dessus
-        
-        // ===== RG_Compta_7 : montants des lignes avec 2 chiffres max après la virgule ==> inclus dans la vérification des contraintes ci-dessus
-       
+      
         // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit être équilibrée
         if (!pEcritureComptable.isEquilibree()) {
         	ComptabiliteManagerImpl.LOGGER.warn("[RG_Compta_2 non respectée]");
@@ -235,8 +210,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             throw new FunctionalException(
                 "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
         }
-        // ===== RG_Compta_4 : Les montants des écritures comptables sont signés et peuvent prendre des avleurs négatives
-        
         
         // TODO ===== RG_Compta_5 : Format et contenu de la référence ==> FAIT
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
@@ -280,9 +253,9 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         			ComptabiliteManagerImpl.LOGGER.warn("La référence d'une écriture comptable doit être unique.");
                     throw new FunctionalException("Une autre écriture comptable existe déjà avec la même référence.");
                 }
-            } catch (NotFoundException vEx) {
-            	
+            } catch (NotFoundException vEx) {          	
                 // Dans ce cas, c'est bon, ça veut dire qu'on n'a aucune autre écriture avec la même référence.
+            	ComptabiliteManagerImpl.LOGGER.debug("Aucune autre écriture n'a la même référence.");
             }
         }
     }
@@ -332,7 +305,5 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
-
-
 
 }

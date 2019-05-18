@@ -14,6 +14,11 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
+
+/**
+ * Classe permettant de mocker l'appel à la couche consumer
+ *
+ */
 public class ComptabiliteDaoMock implements ComptabiliteDao{
 	
 	public void initMock() {

@@ -12,7 +12,7 @@
 
     <bean id="comptabiliteDaoMock" class="com.dummy.myerp.business.impl.manager.ComptabiliteDaoMock" scope="singleton" />
 
-      <!-- DaoProxy -->
+      <!-- DaoProxy - Définition du mock de la classe comptabiliteDaoMock -->
     <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
         <property name="comptabiliteDao" ref="comptabiliteDaoMock"/>
     </bean>

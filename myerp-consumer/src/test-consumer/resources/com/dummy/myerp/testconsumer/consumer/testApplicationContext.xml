@@ -18,14 +18,12 @@
                 </entry>
             </map>
         </property>
-    </bean>
-    
+    </bean>   
     
     <!-- DaoProxy -->
     <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
         <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
     </bean>
-
 
     <!-- ==================== Consumer-Proxy ==================== -->
 
@@ -40,14 +38,12 @@
         </property>
     </bean>
 
-
-
-
     <!-- ==================== Databases ==================== -->
 <!--     <bean id="dataSourceMYERP" class="com.dummy.myerp.technical.util.spring.NullFactoryBean"> -->
 <!--         <constructor-arg value="javax.sql.DataSource"/> -->
 <!--     </bean> -->
-    
+
+    <!-- Configuration de la datasource du docker -->
     <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:9032/db_myerp" />
@@ -55,8 +51,6 @@
         <property name="password" value="myerp" />
     </bean>
 
-
     <!-- ========== SQL ========== -->
-<!--     <import resource="classpath:testSqlContext.xml"/> -->
     <import resource="classpath:/com/dummy/myerp/consumer/sqlContext.xml"/> 
 </beans>

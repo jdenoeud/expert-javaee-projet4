@@ -43,7 +43,7 @@ public class ComptabiliteManagerImplTest {
         vEcritureComptable.setDate(new Date());
     }
     
- // ==================== Test de la méthode AddReference ====================
+// ==================== Test de la méthode getSoldeCompteComptable ====================
     
     // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien débiteur 
     // dans le cas où plusieurs lignes d'écriture existent pour ce compte 
@@ -57,7 +57,7 @@ public class ComptabiliteManagerImplTest {
     	assertEquals("Solde débiteur", compteActual.getLibelle());
     	
     }
- // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien créditeur 
+    // RG_Compta_1 : teste que la solde calculé soit exact et que le solde soit bien créditeur 
     // dans le cas où plusieurs lignes d'écriture existent pour ce compte 
     
     @Test
@@ -108,8 +108,7 @@ public class ComptabiliteManagerImplTest {
                                                                                  new BigDecimal(123)));
         manager.addReference(vEcritureComptable);
         assertEquals("AC-2016/00041", vEcritureComptable.getReference());
-    }
-    
+    } 
 
 // ==================== Test de la méthode checkEcritureComptableUnit ====================
     //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
@@ -125,7 +124,7 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
-    //Vérifie que les champs de l'écriture comptable respectent les contraintes unitaires (annotations)
+    //Vérifie qu'une exception est levée quand les contraintes unitaires en sont pas respectées.
     @Test
     public void checkEcritureComptableUnitViolation_contraintes_non_respectees() throws Exception {
     	expectedEx.expect(FunctionalException.class);
@@ -162,9 +161,9 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
      }
 
-    // RG_Compta_2 : Vérifie que l'écriture comptable est équilibrée
+    // RG_Compta_2 : Vérifie que l'écriture comptable n'est pas équilibrée
     @Test
-    public void checkEcritureComptableUnitRG2_ecriture_non_equilibree() throws Exception {
+    public void checkEcritureComptableUnitRG2_ecritureNonEquilibree() throws Exception {
     	expectedEx.expect(FunctionalException.class);
         expectedEx.expectMessage("L'écriture comptable n'est pas équilibrée.");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
@@ -175,9 +174,10 @@ public class ComptabiliteManagerImplTest {
                                                                                  new BigDecimal(1234)));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-
+    
+    // RG_Compta_2 : Vérifie que l'écriture comptable est équilibrée
     @Test (expected = FunctionalException.class)
-    public void checkEcritureComptableUnitRG3() throws Exception {
+    public void checkEcritureComptableUnitRG3_ecritureEquilibree() throws Exception {
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
@@ -186,7 +186,8 @@ public class ComptabiliteManagerImplTest {
                                                                                  null));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-    
+ 
+    // RG_Compta_5 : Vérifie que le format de la référence est correct
     @Test
     public void checkEcritureComptableUnitRG5_GoodYearInReference() throws Exception {  
 	  	Calendar calendar = new GregorianCalendar(2016, Calendar.DECEMBER, 31);
@@ -203,9 +204,10 @@ public class ComptabiliteManagerImplTest {
 	  		manager.checkEcritureComptableUnit(vEcritureComptable);
 	  	} catch (Exception e){
 	  		fail("Exception levée : "+e.getMessage());
-	  	}
-	  	
-   }	
+	  	}	
+   }
+    
+    // RG_Compta_5 : Vérifie qu'une exception est levée si l'année de la réference est incorrecte
     @Test
     public void checkEcritureComptableUnitRG5_wrongYear() throws Exception {
     	expectedEx.expect(FunctionalException.class);
@@ -219,6 +221,8 @@ public class ComptabiliteManagerImplTest {
                     new BigDecimal(123)));
         manager.checkEcritureComptableUnit(vEcritureComptable);
      } 
+    
+    // RG_Compta_5 : Vérifie qu'une exception est levée si l'année de la réference est incorrecte
     @Test
     public void checkEcritureComptableUnitRG5_wrongYearBis() throws Exception {
     	expectedEx.expect(FunctionalException.class);
@@ -232,7 +236,8 @@ public class ComptabiliteManagerImplTest {
                     new BigDecimal(123)));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-        
+
+    // RG_Compta_5 : Vérifie qu'une exception est levée si le code journal de la référence est incorrecte
     @Test
     public void checkEcritureComptableUnitRG5_wrongJournalCode() throws Exception {
     	expectedEx.expect(FunctionalException.class);

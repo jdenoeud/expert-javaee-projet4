@@ -68,8 +68,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     private static String SQLgetListJournalComptable;
     public void setSQLgetListJournalComptable(String pSQLgetListJournalComptable) {
         SQLgetListJournalComptable = pSQLgetListJournalComptable;
-    }
-    
+    }    
     @Override
     public List<JournalComptable> getListJournalComptable() {
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
@@ -79,6 +78,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     }
     
     // ==================== JournalComptable - GET ====================
+    
     /** SQLgetEcritureComptableByRef */
     private static String SQLgetJournalComptableByCode;
     public void setSQLgetJournalComptableByCode(String pSQLgetJournalComptableByCode) {
@@ -138,11 +138,10 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("derniere_valeur", pDerniereValeur);
 
         vJdbcTemplate.update(SQLinsertSequenceEcritureComptable, vSqlParams);
-
-
     }
 	
 	 // ==================== SequenceEcritureComptable - UPDATE ====================
+    
 	 /** SQLupdateEcritureComptable */
     private static String SQLupdateSequenceEcritureComptable;
     public void setSQLupdateSequenceEcritureComptable(String pSQLupdateSequenceEcritureComptable) {
