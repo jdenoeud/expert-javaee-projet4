@@ -83,7 +83,7 @@ public class EcritureComptableTest {
     }
     
     @Test
-    public void getInListByReference_whenEcrituureIsInTheListe() {
+    public void getInListByReference_whenEcritureIsInTheListe() {
     	List<EcritureComptable> ecritures = new ArrayList<EcritureComptable>();
     	
     	EcritureComptable vEcritureComptable1 = new EcritureComptable();
