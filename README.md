@@ -23,7 +23,7 @@ En plus de l’implémentations des TODOS, j’ai également apporté d’autres
 -	Dans la couche business, création de la classe `ComptabiliteDaoMock` permettant de mocker l’appel à la couche consumer.
 -	Dans la couche technical, configuration du fichier `log4j2.xml` pour tracer les requêtes SQL.
 
-NB : cette liste n’est pas exhaustive.
+Not : cette liste de modifications n’est pas exhaustive.
 
 
 
